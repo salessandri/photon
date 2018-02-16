@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Text, View } from 'react-native'
 
 import AccountListContainer from '../containers/AccountListContainer'
+import ActiveAccountBarContainer from '../containers/ActiveAccountBarContainer'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -18,9 +19,7 @@ class HomeScreen extends React.Component {
           Test text box
           </Text>
         </View>
-        <Text style={{ height: 20 }} onPress={() => { navigate('Accounts') }}>
-          Add Random Account
-        </Text>
+        <ActiveAccountBarContainer navigation={this.props.navigation} />
       </View>
     )
   }

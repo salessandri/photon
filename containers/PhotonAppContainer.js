@@ -9,14 +9,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onPress: () => {
-      let addAcountAction = addAcccount(
-        'id=' + Math.random().toString(36).substring(7),
-        'name=' + Math.random().toString(36).substring(7),
-        'pk=' + Math.random().toString(36).substring(7)
-      )
-      dispatch(addAcountAction)
-    }
   }
 }
 
