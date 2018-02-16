@@ -1,6 +1,7 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { FlatList, View, Text } from 'react-native'
+import { List, ListItem } from 'react-native-elements'
 
 class AccountList extends React.PureComponent {
 
@@ -19,25 +20,39 @@ class AccountList extends React.PureComponent {
   _keyExtractor = (item, index) => item.id;
 
   _onPressItem = (id: string) => {
-    // updater functions are preferred for transactional updates
-    console.log('Item {id} pressed')
+    this.props.onSelection(id)
+    this.props.navigation.goBack()
   };
 
-  _renderItem = ({item}) => (
-    <Text>
-      {item.name} - {item.id}
-    </Text>
-  );
+  _renderItem = ({item}) => {
+    let accountSelected = (item.id == this.props.selectedAccount)
+    let checkIcon = {
+      name: 'check',
+      color: 'green',
+      type: 'MaterialIcons'
+    }
+    return (
+      <ListItem
+        key={item.id}
+        title={item.name}
+        subtitle={item.id}
+        onPress={() => { this._onPressItem(item.id) }}
+        hideChevron={!accountSelected}
+        rightIcon={checkIcon}
+      />
+    )
+  };
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: 'blue' }}>
+      <List
+        containerStyle={{flex: 1, marginTop: 0, borderTopWidth: 1, borderBottomWidth: 1, borderBottomColor: '#cbd2d9'}}>
         <FlatList
           data={this.props.data}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
-      </View>
+      </List>
     );
   }
 }

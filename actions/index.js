@@ -22,3 +22,10 @@ export const deleteAcccount = id => {
     id
   }
 }
+
+export const selectAccount = id => {
+  return {
+    type: 'SELECT_ACCOUNT',
+    id
+  }
+}
