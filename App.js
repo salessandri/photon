@@ -5,6 +5,8 @@ import { applyMiddleware, createStore } from 'redux'
 // Logger with default options
 import logger from 'redux-logger'
 
+import { bindStore, actionListenerMiddleware } from 'redux-ddd';
+
 import { persistStore, persistReducer } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
 import storage from 'redux-persist/lib/storage'
@@ -13,6 +15,8 @@ import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
 import photonApp from './reducers'
 
 import PhotonAppContainer from './containers/PhotonAppContainer';
+
+import AccountService from './services/AccountService'
 
 const persistConfig = {
   key: 'root',
@@ -24,8 +28,15 @@ const persistedReducer = persistReducer(persistConfig, photonApp)
 
 let store = createStore(
   persistedReducer,
-  applyMiddleware(logger)
+  applyMiddleware(
+    actionListenerMiddleware,
+    logger
+  )
 )
+
+bindStore(store, [
+  AccountService
+])
 
 let persistor = persistStore(store)
 
