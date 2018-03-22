@@ -29,3 +29,11 @@ export const selectAccount = id => {
     id
   }
 }
+
+export const addCreateAccountOperation = (accountId, op) => {
+  return {
+    type: 'ADD_CREATE_ACCOUNT_OPERATION',
+    accountId: accountId,
+    operation: op
+  }
+}
