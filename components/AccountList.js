@@ -17,7 +17,7 @@ class AccountList extends React.PureComponent {
     }
   };
 
-  _keyExtractor = (item, index) => item.id;
+  _keyExtractor = (item, index) => item.info.id;
 
   _onPressItem = (id: string) => {
     this.props.onSelection(id)
@@ -25,7 +25,7 @@ class AccountList extends React.PureComponent {
   };
 
   _renderItem = ({item}) => {
-    let accountSelected = (item.id == this.props.selectedAccount)
+    let accountSelected = (item.info.id == this.props.selectedAccount)
     let checkIcon = {
       name: 'check',
       color: 'green',
@@ -33,10 +33,10 @@ class AccountList extends React.PureComponent {
     }
     return (
       <ListItem
-        key={item.id}
-        title={item.name}
-        subtitle={item.id}
-        onPress={() => { this._onPressItem(item.id) }}
+        key={item.info.id}
+        title={item.info.name}
+        subtitle={item.info.id}
+        onPress={() => { this._onPressItem(item.info.id) }}
         hideChevron={!accountSelected}
         rightIcon={checkIcon}
       />
