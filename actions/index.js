@@ -37,3 +37,11 @@ export const addCreateAccountOperation = (accountId, op) => {
     operation: op
   }
 }
+
+export const addAccountMergeOperation = (accountId, op) => {
+  return {
+    type: 'ADD_ACCOUNT_MERGE_OPERATION',
+    accountId: accountId,
+    operation: op
+  }
+}
