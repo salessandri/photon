@@ -1,14 +1,20 @@
 
-const stateReducer = (state = {}, action) => {
+const initialState = {
+  status: 'CLOSED'
+}
+
+const stateReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_ACCOUNT':
-      return {
-        status: 'CLOSED'
-      }
     case 'ADD_CREATE_ACCOUNT_OPERATION':
-      return {
-        status: 'OPEN'
+      let op = action.operation
+      let result = state
+      if (action.accountId === op.account) {
+        result = {
+          ...state,
+          status: 'OPEN'
+        }
       }
+      return result
     case 'ADD_ACCOUNT_MERGE_OPERATION':
       return {
         status: 'CLOSED'
