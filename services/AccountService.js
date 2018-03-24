@@ -2,9 +2,11 @@ import { Connect } from 'redux-ddd';
 
 import StellarNetworkService from './StellarNetworkService'
 
-import { addCreateAccountOperation } from '../actions'
+import { addTransaction, addCreateAccountOperation } from '../actions'
 
-@Connect()
+@Connect(state => ({
+  accounts: state.accounts,
+}))
 class AccountService {
 
   // The onAction listener is called every time an action is
@@ -12,12 +14,12 @@ class AccountService {
   // have logic with side-effects.
   onAction(action) {
     switch (action.type) {
-    case 'ADD_ACCOUNT':
-      this._startUpdateStream(action.id)
-      return
-    case 'DELETE_ACCOUNT':
-      this._stopUpdateStream(action.id)
-      return
+      case 'ADD_ACCOUNT':
+        this._startUpdateStream(action.id, undefined, undefined)
+        return
+      case 'DELETE_ACCOUNT':
+        this._stopUpdateStream(action.id)
+        return
     }
   }
 
@@ -25,26 +27,57 @@ class AccountService {
 
   }
 
-  _startUpdateStream(accountId) {
-    this._updateStreams[accountId] = StellarNetworkService.getServer()
+  _startUpdateStream(accountId, operationsCursor, txCursor) {
+    let operationsStream = StellarNetworkService.getServer()
       .operations()
       .forAccount(accountId)
+      .cursor(operationsCursor)
       .stream({
         onmessage: op => { this._processOperation(accountId, op) },
-        onerror: err => { this._processError(accountId, err) }
+        onerror: err => { this._processOperationError(accountId, err) }
       })
+    let transactionsStream = StellarNetworkService.getServer()
+      .transactions()
+      .forAccount(accountId)
+      .cursor(txCursor)
+      .stream({
+        onmessage: tx => { this._processTransaction(accountId, tx) },
+        onerror: err => { this._processTransactionError(accountId, err) }
+      })
+    this._updateStreams[accountId] = {
+      operationsStream,
+      transactionsStream
+    }
+  }
+
+  _processTransaction(accountId, tx) {
+    let modelTx = {
+      id: tx.id,
+      pagingToken: tx.paging_token,
+      createdAt: tx.created_at,
+      sourceAccount: tx.source_account,
+      sequenceNumber: tx.source_account_sequence,
+      fee: tx.fee_paid,
+      operationCount: tx.operation_count,
+      memoType: tx.memo_type,
+      signatures: tx.signatures
+    }
+    let addTxAction = addTransaction(accountId, modelTx)
+    this.dispatch(addTxAction)
   }
 
   _processOperation(accountId, operation) {
     switch (operation.type) {
-    case 'create_account':
-      this._processCreateAccount(accountId, operation)
-      return
+      case 'create_account':
+        this._processCreateAccount(accountId, operation)
+        return
+      case 'account_merge':
+        console.log('Account merge: ' + JSON.stringify(operation))
     }
   }
 
-  _processError(err) {
-    console.log('Account update error: ' + JSON.stringify(err))
+  _processOperationError(err) {
+    console.log('Operation stream error: ' + JSON.stringify(err))
   }
 
   _processCreateAccount(accountId, operation) {

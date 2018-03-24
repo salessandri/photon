@@ -22,6 +22,7 @@ const accounts = (state = {}, action) => {
       return newState
     case 'ADD_CREATE_ACCOUNT_OPERATION':
     case 'ADD_ACCOUNT_MERGE_OPERATION':
+    case 'ADD_TRANSACTION':
       return {
         ...state,
         [action.accountId]: accountReducer(state[action.accountId], action)

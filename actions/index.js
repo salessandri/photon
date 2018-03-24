@@ -30,6 +30,14 @@ export const selectAccount = id => {
   }
 }
 
+export const addTransaction = (accountId, tx) => {
+  return {
+    type: 'ADD_TRANSACTION',
+    accountId,
+    transaction: tx
+  }
+}
+
 export const addCreateAccountOperation = (accountId, op) => {
   return {
     type: 'ADD_CREATE_ACCOUNT_OPERATION',
