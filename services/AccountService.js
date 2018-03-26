@@ -8,7 +8,8 @@ import {
   addAccountMergeOperation,
   addPaymentOperation,
   addPathPaymentOperation,
-  addManageOfferOperation
+  addManageOfferOperation,
+  addCreatePassiveOfferOperation
 } from '../actions'
 
 @Connect(state => ({
@@ -172,6 +173,28 @@ class AccountService {
       sellingAssetCode: operation.selling_asset_code
     }
     let action = addManageOfferOperation(accountId, modelOp)
+    this.dispatch(action)
+  }
+
+  _processCreatePassiveOffer(accountId, operation) {
+    let modelOp = {
+      id: operation.id,
+      sourceAccount: operation.source_account,
+      type: operation.type,
+      createdAt: operation.created_at,
+      transactionId: operation.transaction_hash,
+      offerId: operation.offer_id,
+      amount: operation.amount,
+      buyingAssetType: operation.buying_asset_type,
+      buyingAssetIssuer: operation.buying_asset_issuer,
+      buyingAssetCode: operation.buying_asset_code,
+      price: operation.price,
+      priceRatio: operation.price_r,
+      sellingAssetType: operation.selling_asset_type,
+      sellingAssetIssuer: operation.selling_asset_issuer,
+      sellingAssetCode: operation.selling_asset_code
+    }
+    let action = addCreatePassiveOfferOperation(accountId, modelOp)
     this.dispatch(action)
   }
 
