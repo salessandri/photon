@@ -119,52 +119,41 @@ it('"payment" is parsed correctly', () => {
 it('"manage_offer" is parsed correctly', () => {
   let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
-    _links:
-      {
-        self:
-          { href: 'https://horizon-testnet.stellar.org/operations/13237089210369' },
-        transaction:
-          { href: 'https://horizon-testnet.stellar.org/transactions/6a1e3ff103473d8edbdb05a7a4bd17c9e84c310ff4f52b80596441d9e814e180' },
-        effects:
-          { href: 'https://horizon-testnet.stellar.org/operations/13237089210369/effects' },
-        succeeds:
-          { href: 'https://horizon-testnet.stellar.org/effects?order=desc&cursor=13237089210369' },
-        precedes:
-          { href: 'https://horizon-testnet.stellar.org/effects?order=asc&cursor=13237089210369' }
-      },
-    id: '13237089210369',
-    paging_token: '13237089210369',
-    source_account: 'GBU2RKB43SAUK2D2OAHJ5LNP7FXP6LUDSZON2KWQPAWSLZPXECUUUADI',
+    id: '34824857556357125',
+    paging_token: '34824857556357125',
+    source_account: 'GCR6TSGRME5EA6D6LNUJ4PHXMYHFNRH4JSC7M6WFMJVHFDZDSLT6QULP',
     type: 'manage_offer',
     type_i: 3,
-    created_at: '2017-03-20T20:34:38Z',
-    transaction_hash: '6a1e3ff103473d8edbdb05a7a4bd17c9e84c310ff4f52b80596441d9e814e180',
-    amount: '1.0000000',
-    price: '1.0000000',
-    price_r: { n: 1, d: 1 },
-    buying_asset_type: 'native',
+    created_at: '2018-03-26T06:09:32Z',
+    transaction_hash: 'e0bae8db8f5d59c568a0af8247711e2993b3809bb31151783ee85dabfde3b429',
+    amount: '0.7204998',
+    price: '57.2229000',
+    price_r: { n: 572229, d: 10000 },
+    buying_asset_type: 'credit_alphanum4',
+    buying_asset_code: 'LTC',
+    buying_asset_issuer: 'GA77B6GK5K3FH2YJ6I5VJ7VPFZKPBQUX2IIC2MJYAERQTGJI4VOPKRYJ',
     selling_asset_type: 'credit_alphanum4',
-    selling_asset_code: 'A',
+    selling_asset_code: 'BTC',
     selling_asset_issuer: 'GAX64FB2RUZLB4YJFRWQ7H27FKYUPK3YGKTS6LNOHMASNOVYJWYYR2G4',
-    offer_id: 0
+    offer_id: 148609
   }
 
   let expectedOperation = {
-    id: '13237089210369',
-    sourceAccount: 'GBU2RKB43SAUK2D2OAHJ5LNP7FXP6LUDSZON2KWQPAWSLZPXECUUUADI',
+    id: '34824857556357125',
+    sourceAccount: 'GCR6TSGRME5EA6D6LNUJ4PHXMYHFNRH4JSC7M6WFMJVHFDZDSLT6QULP',
     type: 'manage_offer',
-    createdAt: '2017-03-20T20:34:38Z',
-    transactionId: '6a1e3ff103473d8edbdb05a7a4bd17c9e84c310ff4f52b80596441d9e814e180',
-    offerId: 0,
-    amount: '1.0000000',
-    price: '1.0000000',
-    priceRatio: { n: 1, d: 1 },
-    buyingAssetType: 'native',
-    buyingAssetIssuer: undefined,
-    buyingAssetCode: undefined,
+    createdAt: '2018-03-26T06:09:32Z',
+    transactionId: 'e0bae8db8f5d59c568a0af8247711e2993b3809bb31151783ee85dabfde3b429',
+    offerId: 148609,
+    amount: '0.7204998',
+    price: '57.2229000',
+    priceRatio: { n: 572229, d: 10000 },
+    buyingAssetType: 'credit_alphanum4',
+    buyingAssetIssuer: 'GA77B6GK5K3FH2YJ6I5VJ7VPFZKPBQUX2IIC2MJYAERQTGJI4VOPKRYJ',
+    buyingAssetCode: 'LTC',
     sellingAssetType: 'credit_alphanum4',
     sellingAssetIssuer: 'GAX64FB2RUZLB4YJFRWQ7H27FKYUPK3YGKTS6LNOHMASNOVYJWYYR2G4',
-    sellingAssetCode: 'A',
+    sellingAssetCode: 'BTC',
   }
 
   let expectedAction = {
