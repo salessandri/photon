@@ -89,6 +89,12 @@ class AccountService {
       case 'manage_offer':
         this._processManageOffer(accountId, operation)
         return
+      case 'create_passive_offer':
+        this._processCreatePassiveOffer(accountId, operation)
+        return
+      case 'set_options':
+        this._processSetOptions(accountId, operation)
+        return
       case 'account_merge':
         this._processAccountMerge(accountId, operation)
         return
