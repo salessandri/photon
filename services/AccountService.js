@@ -6,7 +6,8 @@ import {
   addTransaction,
   addCreateAccountOperation,
   addAccountMergeOperation,
-  addPaymentOperation
+  addPaymentOperation,
+  addPathPaymentOperation
 } from '../actions'
 
 @Connect(state => ({
@@ -79,6 +80,9 @@ class AccountService {
       case 'payment':
         this._processPayment(accountId, operation)
         return
+      case 'path_payment':
+        this._processPathPayment(accountId, operation)
+        return
       case 'account_merge':
         this._processAccountMerge(accountId, operation)
         return
@@ -113,12 +117,35 @@ class AccountService {
       transactionId: operation.transaction_hash,
       assetType: operation.asset_type,
       assetCode: operation.asset_code,
-      assetIssuer: operation.asset_issuer
+      assetIssuer: operation.asset_issuer,
       from: operation.from,
       to: operation.to,
       amount: operation.amount
     }
     let action = addPaymentOperation(accountId, modelOp)
+    this.dispatch(action)
+  }
+
+  _processPathPayment(accountId, operation) {
+    let modelOp = {
+      id: operation.id,
+      sourceAccount: operation.source_account,
+      type: operation.type,
+      createdAt: operation.created_at,
+      transactionId: operation.transaction_hash,
+      from: operation.from,
+      to: operation.to,
+      sourceAssetType: operation.source_asset_type,
+      sourceAssetIssuer: operation.source_asset_issuer,
+      sourceAssetCode: operation.source_asset_code,
+      sourceMaxAmount: operation.source_max,
+      sourceAmount: operation.source_amount,
+      destinationAssetType: operation.asset_type,
+      destinationAssetIssuer: operation.asset_issuer,
+      destinationAssetCode: operation.asset_code,
+      destinationAmount: operation.amount
+    }
+    let action = addPathPaymentOperation(accountId, modelOp)
     this.dispatch(action)
   }
 
