@@ -106,6 +106,9 @@ class AccountService {
       case 'account_merge':
         this._processAccountMerge(accountId, operation)
         return
+      case 'inflation':
+        this._processInflation(accountId, operation)
+        return
     }
   }
 
@@ -281,6 +284,18 @@ class AccountService {
       into: operation.into,
     }
     let action = addAccountMergeOperation(accountId, modelOp)
+    this.dispatch(action)
+  }
+
+  _processInflation(accountId, operation) {
+    let modelOp = {
+      id: operation.id,
+      sourceAccount: operation.source_account,
+      type: operation.type,
+      createdAt: operation.created_at,
+      transactionId: operation.transaction_hash,
+    }
+    let action = addInflationOperation(accountId, modelOp)
     this.dispatch(action)
   }
 

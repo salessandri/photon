@@ -109,3 +109,11 @@ export const addAccountMergeOperation = (accountId, op) => {
     operation: op
   }
 }
+
+export const addInflationOperation = (accountId, op) => {
+  return {
+    type: 'ADD_INFLATION_OPERATION',
+    accountId: accountId,
+    operation: op
+  }
+}
