@@ -10,7 +10,8 @@ import {
   addPathPaymentOperation,
   addManageOfferOperation,
   addCreatePassiveOfferOperation,
-  addSetOptionsOperation
+  addSetOptionsOperation,
+  addChangeTrustOperation
 } from '../actions'
 
 @Connect(state => ({
@@ -94,6 +95,9 @@ class AccountService {
         return
       case 'set_options':
         this._processSetOptions(accountId, operation)
+        return
+      case 'change_trust':
+        this._processChangeTrust(accountId, operation)
         return
       case 'account_merge':
         this._processAccountMerge(accountId, operation)
@@ -223,6 +227,24 @@ class AccountService {
       flagsCleared: operation.clear_flags_s
     }
     let action = addSetOptionsOperation(accountId, modelOp)
+    this.dispatch(action)
+  }
+
+  _processChangeTrust(accountId, operation) {
+    let modelOp = {
+      id: operation.id,
+      sourceAccount: operation.source_account,
+      type: operation.type,
+      createdAt: operation.created_at,
+      transactionId: operation.transaction_hash,
+      assetType: operation.asset_type,
+      assetIssuer: operation.asset_issuer,
+      assetCode: operation.asset_code,
+      trustee: operation.trustee,
+      trustor: operation.trustor,
+      limit: operation.limit
+    }
+    let action = addChangeTrustOperation(accountId, operation)
     this.dispatch(action)
   }
 
