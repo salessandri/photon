@@ -117,3 +117,11 @@ export const addInflationOperation = (accountId, op) => {
     operation: op
   }
 }
+
+export const addManageDataOperation = (accountId, op) => {
+  return {
+    type: 'ADD_MANAGE_DATA_OPERATION',
+    accountId: accountId,
+    operation: op
+  }
+}

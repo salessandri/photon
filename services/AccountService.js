@@ -12,7 +12,8 @@ import {
   addCreatePassiveOfferOperation,
   addSetOptionsOperation,
   addChangeTrustOperation,
-  addAllowTrustOperation
+  addAllowTrustOperation,
+  addManageDataOperation
 } from '../actions'
 
 @Connect(state => ({
@@ -108,6 +109,9 @@ class AccountService {
         return
       case 'inflation':
         this._processInflation(accountId, operation)
+        return
+      case 'manage_data':
+        this._processManageData(accountId, operation)
         return
     }
   }
@@ -280,8 +284,8 @@ class AccountService {
       type: operation.type,
       createdAt: operation.created_at,
       transactionId: operation.transaction_hash,
-      account: operation.account
-      into: operation.into,
+      account: operation.account,
+      into: operation.into
     }
     let action = addAccountMergeOperation(accountId, modelOp)
     this.dispatch(action)
@@ -293,9 +297,23 @@ class AccountService {
       sourceAccount: operation.source_account,
       type: operation.type,
       createdAt: operation.created_at,
-      transactionId: operation.transaction_hash,
+      transactionId: operation.transaction_hash
     }
     let action = addInflationOperation(accountId, modelOp)
+    this.dispatch(action)
+  }
+
+  _processManageData(accountId, operation) {
+    let modelOp = {
+      id: operation.id,
+      sourceAccount: operation.source_account,
+      type: operation.type,
+      createdAt: operation.created_at,
+      transactionId: operation.transaction_hash,
+      name: operation.name,
+      value: operation.value
+    }
+    let action = addManageDataOperation(accountId, modelOp)
     this.dispatch(action)
   }
 
