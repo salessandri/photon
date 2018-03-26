@@ -62,6 +62,14 @@ export const addPathPaymentOperation = (accountId, op) => {
   }
 }
 
+export const addManageOfferOperation = (accountId, op) => {
+  return {
+    type: 'ADD_MANAGE_OFFER_OPERATION',
+    accountId: accountId,
+    operation: op
+  }
+}
+
 export const addAccountMergeOperation = (accountId, op) => {
   return {
     type: 'ADD_ACCOUNT_MERGE_OPERATION',

@@ -7,7 +7,8 @@ import {
   addCreateAccountOperation,
   addAccountMergeOperation,
   addPaymentOperation,
-  addPathPaymentOperation
+  addPathPaymentOperation,
+  addManageOfferOperation
 } from '../actions'
 
 @Connect(state => ({
@@ -83,6 +84,9 @@ class AccountService {
       case 'path_payment':
         this._processPathPayment(accountId, operation)
         return
+      case 'manage_offer':
+        this._processManageOffer(accountId, operation)
+        return
       case 'account_merge':
         this._processAccountMerge(accountId, operation)
         return
@@ -146,6 +150,28 @@ class AccountService {
       destinationAmount: operation.amount
     }
     let action = addPathPaymentOperation(accountId, modelOp)
+    this.dispatch(action)
+  }
+
+  _processManageOffer(accountId, operation) {
+    let modelOp = {
+      id: operation.id,
+      sourceAccount: operation.source_account,
+      type: operation.type,
+      createdAt: operation.created_at,
+      transactionId: operation.transaction_hash,
+      offerId: operation.offer_id,
+      amount: operation.amount,
+      buyingAssetType: operation.buying_asset_type,
+      buyingAssetIssuer: operation.buying_asset_issuer,
+      buyingAssetCode: operation.buying_asset_code,
+      price: operation.price,
+      priceRatio: operation.price_r,
+      sellingAssetType: operation.selling_asset_type,
+      sellingAssetIssuer: operation.selling_asset_issuer,
+      sellingAssetCode: operation.selling_asset_code
+    }
+    let action = addManageOfferOperation(accountId, modelOp)
     this.dispatch(action)
   }
 
