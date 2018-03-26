@@ -94,6 +94,14 @@ export const addChangeTrustOperation = (accountId, op) => {
   }
 }
 
+export const addAllowTrustOperation = (accountId, op) => {
+  return {
+    type: 'ADD_ALLOW_TRUST_OPERATION',
+    accountId: accountId,
+    operation: op
+  }
+}
+
 export const addAccountMergeOperation = (accountId, op) => {
   return {
     type: 'ADD_ACCOUNT_MERGE_OPERATION',

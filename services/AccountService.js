@@ -11,7 +11,8 @@ import {
   addManageOfferOperation,
   addCreatePassiveOfferOperation,
   addSetOptionsOperation,
-  addChangeTrustOperation
+  addChangeTrustOperation,
+  addAllowTrustOperation
 } from '../actions'
 
 @Connect(state => ({
@@ -98,6 +99,9 @@ class AccountService {
         return
       case 'change_trust':
         this._processChangeTrust(accountId, operation)
+        return
+      case 'allow_trust':
+        this._processAllowTrust(accountId, operation)
         return
       case 'account_merge':
         this._processAccountMerge(accountId, operation)
@@ -244,7 +248,25 @@ class AccountService {
       trustor: operation.trustor,
       limit: operation.limit
     }
-    let action = addChangeTrustOperation(accountId, operation)
+    let action = addChangeTrustOperation(accountId, modelOp)
+    this.dispatch(action)
+  }
+
+  _processAllowTrust(accountId, operation) {
+    let modelOp = {
+      id: operation.id,
+      sourceAccount: operation.source_account,
+      type: operation.type,
+      createdAt: operation.created_at,
+      transactionId: operation.transaction_hash,
+      assetType: operation.asset_type,
+      assetIssuer: operation.asset_issuer,
+      assetCode: operation.asset_code,
+      trustee: operation.trustee,
+      trustor: operation.trustor,
+      authorize: operation.authorize
+    }
+    let action = addAllowTrustOperation(accountId, modelOp)
     this.dispatch(action)
   }
 
