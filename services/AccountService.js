@@ -277,8 +277,8 @@ class AccountService {
       type: operation.type,
       createdAt: operation.created_at,
       transactionId: operation.transaction_hash,
-      into: operation.into,
       account: operation.account
+      into: operation.into,
     }
     let action = addAccountMergeOperation(accountId, modelOp)
     this.dispatch(action)
