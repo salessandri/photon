@@ -78,6 +78,14 @@ export const addCreatePassiveOfferOperation = (accountId, op) => {
   }
 }
 
+export const addSetOptionsOperation = (accountId, op) => {
+  return {
+    type: 'ADD_SET_OPTIONS_OPERATION',
+    accountId: accountId,
+    operation: op
+  }
+}
+
 export const addAccountMergeOperation = (accountId, op) => {
   return {
     type: 'ADD_ACCOUNT_MERGE_OPERATION',

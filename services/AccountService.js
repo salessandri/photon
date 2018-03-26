@@ -9,7 +9,8 @@ import {
   addPaymentOperation,
   addPathPaymentOperation,
   addManageOfferOperation,
-  addCreatePassiveOfferOperation
+  addCreatePassiveOfferOperation,
+  addSetOptionsOperation
 } from '../actions'
 
 @Connect(state => ({
@@ -195,6 +196,27 @@ class AccountService {
       sellingAssetCode: operation.selling_asset_code
     }
     let action = addCreatePassiveOfferOperation(accountId, modelOp)
+    this.dispatch(action)
+  }
+
+  _processSetOptions(accountId, operation) {
+    let modelOp = {
+      id: operation.id,
+      sourceAccount: operation.source_account,
+      type: operation.type,
+      createdAt: operation.created_at,
+      transactionId: operation.transaction_hash,
+      signerKey: operation.signer_key,
+      signerWeight: operation.signer_weight,
+      masterKeyWeight: operation.master_key_weight,
+      lowThreshold: operation.low_threshold,
+      mediumThreshold: operation.med_threshold,
+      highThreshold: operation.high_threshold,
+      homeDomain: operation.home_domain,
+      flagsSet: operation.set_flags_s,
+      flagsCleared: operation.clear_flags_s
+    }
+    let action = addSetOptionsOperation(accountId, modelOp)
     this.dispatch(action)
   }
 
