@@ -170,3 +170,54 @@ it('"manage_offer" is parsed correctly', () => {
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
 })
+
+it('"create_passive_offer" is parsed correctly', () => {
+  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
+  let rawCreateAccount = {
+    id: '34823581951074305',
+    paging_token: '34823581951074305',
+    source_account: 'GBMTGMQXBXZS5XJROQQOZB7TU4ACBIXTJJEG7WTXP4ZEARPGQGDWHWIS',
+    type: 'create_passive_offer',
+    type_i: 4,
+    created_at: '2018-03-26T05:44:47Z',
+    transaction_hash: '20e018aaa071019a94021bd99bca875816085986d61228b777d5ab5395803409',
+    amount: '3636.3636363',
+    price: '0.0275000',
+    price_r: { n: 11, d: 400 },
+    buying_asset_type: 'native',
+    selling_asset_type: 'credit_alphanum4',
+    selling_asset_code: 'OG',
+    selling_asset_issuer: 'GB6ASOXVGN7TJ4XHQX7JRJHWRXLS52R44ZIS77HUCUGVQBTUZRSMIDIW'
+  }
+
+  let expectedOperation = {
+    id: '34823581951074305',
+    sourceAccount: 'GBMTGMQXBXZS5XJROQQOZB7TU4ACBIXTJJEG7WTXP4ZEARPGQGDWHWIS',
+    type: 'create_passive_offer',
+    createdAt: '2018-03-26T05:44:47Z',
+    transactionId: '20e018aaa071019a94021bd99bca875816085986d61228b777d5ab5395803409',
+    amount: '3636.3636363',
+    price: '0.0275000',
+    priceRatio: { n: 11, d: 400 },
+    buyingAssetType: 'native',
+    buyingAssetIssuer: undefined,
+    buyingAssetCode: undefined,
+    sellingAssetType: 'credit_alphanum4',
+    sellingAssetIssuer: 'GB6ASOXVGN7TJ4XHQX7JRJHWRXLS52R44ZIS77HUCUGVQBTUZRSMIDIW',
+    sellingAssetCode: 'OG',
+  }
+
+  let expectedAction = {
+    type: 'ADD_CREATE_PASSIVE_OFFER_OPERATION',
+    accountId: accountId,
+    operation: expectedOperation
+  }
+
+  const mockDispatch = jest.fn()
+  OperationService.dispatch = mockDispatch
+
+  OperationService.processCreatePassiveOffer(accountId, rawCreateAccount)
+
+  expect(mockDispatch.mock.calls.length).toBe(1)
+  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+})
