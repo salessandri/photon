@@ -221,3 +221,49 @@ it('"create_passive_offer" is parsed correctly', () => {
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
 })
+
+it('"set_options" is parsed correctly', () => {
+  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
+  let rawCreateAccount = {
+    id: '34823135274471425',
+    paging_token: '34823135274471425',
+    source_account: 'GDGYWCVS2KVYKI4D5RVEDP42MNITYGGA4GSXWO4CWIC5RJUEGGYHJQGH',
+    type: 'set_options',
+    type_i: 5,
+    created_at: '2018-03-26T05:36:07Z',
+    transaction_hash: '8fd9ecb42e5639800de2f5de20fe3b1d4182617cebbbf4cf7a886970ac007d4b',
+    set_flags: [1],
+    set_flags_s: ['auth_required']
+  }
+
+  let expectedOperation = {
+    id: '34823135274471425',
+    sourceAccount: 'GDGYWCVS2KVYKI4D5RVEDP42MNITYGGA4GSXWO4CWIC5RJUEGGYHJQGH',
+    type: 'set_options',
+    createdAt: '2018-03-26T05:36:07Z',
+    transactionId: '8fd9ecb42e5639800de2f5de20fe3b1d4182617cebbbf4cf7a886970ac007d4b',
+    flagsSet: ['auth_required'],
+    flagsCleared: undefined,
+    signerKey: undefined,
+    signerWeight: undefined,
+    masterKeyWeight: undefined,
+    lowThreshold: undefined,
+    mediumThreshold: undefined,
+    highThreshold: undefined,
+    homeDomain: undefined,
+  }
+
+  let expectedAction = {
+    type: 'ADD_SET_OPTIONS_OPERATION',
+    accountId: accountId,
+    operation: expectedOperation
+  }
+
+  const mockDispatch = jest.fn()
+  OperationService.dispatch = mockDispatch
+
+  OperationService.processSetOptions(accountId, rawCreateAccount)
+
+  expect(mockDispatch.mock.calls.length).toBe(1)
+  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+})
