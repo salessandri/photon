@@ -20,9 +20,10 @@ const accounts = (state = {}, action) => {
     case 'DELETE_ACCOUNT':
       let { [action.id]: omit, ...newState } = state
       return newState
-    case 'ADD_CREATE_ACCOUNT_OPERATION':
-    case 'ADD_ACCOUNT_MERGE_OPERATION':
     case 'ADD_TRANSACTION':
+    case 'ADD_CREATE_ACCOUNT_OPERATION':
+    case 'ADD_PAYMENT_OPERATION':
+    case 'ADD_ACCOUNT_MERGE_OPERATION':
       return {
         ...state,
         [action.accountId]: accountReducer(state[action.accountId], action)

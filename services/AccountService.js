@@ -2,7 +2,12 @@ import { Connect } from 'redux-ddd';
 
 import StellarNetworkService from './StellarNetworkService'
 
-import { addTransaction, addCreateAccountOperation, addAccountMergeOperation } from '../actions'
+import {
+  addTransaction,
+  addCreateAccountOperation,
+  addAccountMergeOperation,
+  addPaymentOperation
+} from '../actions'
 
 @Connect(state => ({
   accounts: state.accounts,
@@ -71,6 +76,9 @@ class AccountService {
       case 'create_account':
         this._processCreateAccount(accountId, operation)
         return
+      case 'payment':
+        this._processPayment(accountId, operation)
+        return
       case 'account_merge':
         this._processAccountMerge(accountId, operation)
         return
@@ -93,6 +101,24 @@ class AccountService {
       account: operation.account
     }
     let action = addCreateAccountOperation(accountId, modelOp)
+    this.dispatch(action)
+  }
+
+  _processPayment(accountId, operation) {
+    let modelOp = {
+      id: operation.id,
+      sourceAccount: operation.source_account,
+      type: operation.type,
+      createdAt: operation.created_at,
+      transactionId: operation.transaction_hash,
+      assetType: operation.asset_type,
+      assetCode: operation.asset_code,
+      assetIssuer: operation.asset_issuer
+      from: operation.from,
+      to: operation.to,
+      amount: operation.amount
+    }
+    let action = addPaymentOperation(accountId, modelOp)
     this.dispatch(action)
   }
 
