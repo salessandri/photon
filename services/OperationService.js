@@ -89,7 +89,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  _processPathPayment(accountId, operation) {
+  processPathPayment(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -109,7 +109,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  _processManageOffer(accountId, operation) {
+  processManageOffer(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -128,7 +128,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  _processCreatePassiveOffer(accountId, operation) {
+  processCreatePassiveOffer(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -147,7 +147,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  _processSetOptions(accountId, operation) {
+  processSetOptions(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -165,7 +165,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  _processChangeTrust(accountId, operation) {
+  processChangeTrust(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -180,7 +180,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  _processAllowTrust(accountId, operation) {
+  processAllowTrust(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -195,7 +195,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  _processAccountMerge(accountId, operation) {
+  processAccountMerge(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -206,13 +206,13 @@ class OperationService {
     this.dispatch(action)
   }
 
-  _processInflation(accountId, operation) {
+  processInflation(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let action = addInflationOperation(accountId, basicOp)
     this.dispatch(action)
   }
 
-  _processManageData(accountId, operation) {
+  processManageData(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
