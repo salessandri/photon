@@ -511,3 +511,42 @@ it('"inflation" is parsed correctly', () => {
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
 })
+
+it('"manage_data" is parsed correctly', () => {
+  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
+  let rawCreateAccount = {
+    id: '34820472394747905',
+    paging_token: '34820472394747905',
+    source_account: 'GD6GAIICLFQOID6SQPRTZWA6NLU4YHSDF7ITBKHH3HRGJERRE3RPHIUD',
+    type: 'manage_data',
+    type_i: 10,
+    created_at: '2018-03-26T04:44:26Z',
+    transaction_hash: '93c39a59d0afa588e905b6ba0fad991d9dffeacf28e492435a2b2b2faec4831f',
+    name: 'rewardShareSize',
+    value: 'MS4w',
+  }
+
+  let expectedOperation = {
+    id: '34820472394747905',
+    sourceAccount: 'GD6GAIICLFQOID6SQPRTZWA6NLU4YHSDF7ITBKHH3HRGJERRE3RPHIUD',
+    type: 'manage_data',
+    createdAt: '2018-03-26T04:44:26Z',
+    transactionId: '93c39a59d0afa588e905b6ba0fad991d9dffeacf28e492435a2b2b2faec4831f',
+    name: 'rewardShareSize',
+    value: 'MS4w'
+  }
+
+  let expectedAction = {
+    type: 'ADD_MANAGE_DATA_OPERATION',
+    accountId: accountId,
+    operation: expectedOperation
+  }
+
+  const mockDispatch = jest.fn()
+  OperationService.dispatch = mockDispatch
+
+  OperationService.processManageData(accountId, rawCreateAccount)
+
+  expect(mockDispatch.mock.calls.length).toBe(1)
+  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+})
