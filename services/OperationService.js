@@ -91,6 +91,13 @@ class OperationService {
 
   processPathPayment(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
+    let path = operation.path.map(p => {
+      return {
+        assetType: p.asset_type,
+        assetIssuer: p.asset_issuer,
+        assetCode: p.asset_code
+      }
+    })
     let modelOp = {
       ...basicOp,
       from: operation.from,
@@ -99,11 +106,11 @@ class OperationService {
       sourceAssetIssuer: operation.source_asset_issuer,
       sourceAssetCode: operation.source_asset_code,
       sourceMaxAmount: operation.source_max,
-      sourceAmount: operation.source_amount,
       destinationAssetType: operation.asset_type,
       destinationAssetIssuer: operation.asset_issuer,
       destinationAssetCode: operation.asset_code,
-      destinationAmount: operation.amount
+      destinationAmount: operation.amount,
+      path: path
     }
     let action = addPathPaymentOperation(accountId, modelOp)
     this.dispatch(action)

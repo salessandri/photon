@@ -116,6 +116,82 @@ it('"payment" is parsed correctly', () => {
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
 })
 
+it('"path_payment" is parsed correctly', () => {
+  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
+  let rawCreateAccount = {
+    id: '34806814398746625',
+    paging_token: '34806814398746625',
+    source_account: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+    type: 'path_payment',
+    type_i: 2,
+    created_at: '2018-03-26T00:18:52Z',
+    transaction_hash: '6e538492f66a458a51b93bde82dbdc813effe654bb1b02f59be619ebabf42818',
+    asset_type: 'credit_alphanum4',
+    asset_code: 'EUR',
+    asset_issuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP',
+    from: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+    to: 'GC3SUVTE2ATAZYPMNHRIYZBHROPR62MX2V4AW4ARC2SQB5QMY4YA4KPL',
+    amount: '1.0000000',
+    path:
+      [{
+        asset_type: 'credit_alphanum4',
+        asset_code: 'USD',
+        asset_issuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZZQCEE5UFP'
+      },
+      {
+        asset_type: 'credit_alphanum4',
+        asset_code: 'EUR',
+        asset_issuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP'
+      }],
+    source_max: '20.0000000',
+    source_asset_type: 'native'
+  }
+
+  let expectedOperation = {
+    id: '34806814398746625',
+    sourceAccount: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+    type: 'path_payment',
+    createdAt: '2018-03-26T00:18:52Z',
+    transactionId: '6e538492f66a458a51b93bde82dbdc813effe654bb1b02f59be619ebabf42818',
+    destinationAssetType: 'credit_alphanum4',
+    destinationAssetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP',
+    destinationAssetCode: 'EUR',
+    sourceAssetType: 'native',
+    sourceAssetIssuer: undefined,
+    sourceAssetCode: undefined,
+    from: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+    to: 'GC3SUVTE2ATAZYPMNHRIYZBHROPR62MX2V4AW4ARC2SQB5QMY4YA4KPL',
+    destinationAmount: '1.0000000',
+    sourceMaxAmount: '20.0000000',
+    path: [
+      {
+        assetType: 'credit_alphanum4',
+        assetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZZQCEE5UFP',
+        assetCode: 'USD'
+      },
+      {
+        assetType: 'credit_alphanum4',
+        assetCode: 'EUR',
+        assetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP'
+      }
+    ]
+  }
+
+  let expectedAction = {
+    type: 'ADD_PATH_PAYMENT_OPERATION',
+    accountId: accountId,
+    operation: expectedOperation
+  }
+
+  const mockDispatch = jest.fn()
+  OperationService.dispatch = mockDispatch
+
+  OperationService.processPathPayment(accountId, rawCreateAccount)
+
+  expect(mockDispatch.mock.calls.length).toBe(1)
+  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+})
+
 it('"manage_offer" is parsed correctly', () => {
   let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
