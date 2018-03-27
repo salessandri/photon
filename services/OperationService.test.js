@@ -437,3 +437,42 @@ it('"allow_trust" is parsed correctly', () => {
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
 })
+
+it('"account_merge" is parsed correctly', () => {
+  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
+  let rawCreateAccount = {
+    id: '34806625420185601',
+    paging_token: '34806625420185601',
+    source_account: 'GBI6ETOOH625NEDWPN752FSG2PUS3HHLPTPI5JKNKQCVXRLKKC33L4GP',
+    type: 'account_merge',
+    type_i: 8,
+    created_at: '2018-03-26T00:15:12Z',
+    transaction_hash: '24c2febdd241e6c7d312c4ffaa03eb3848e18e25125097cd8b1ac519c68d0261',
+    account: 'GBI6ETOOH625NEDWPN752FSG2PUS3HHLPTPI5JKNKQCVXRLKKC33L4GP',
+    into: 'GBXQXNLHQESJZTSUB5OK5UVG5M66S6F6DKCMUPN77L4MZ4VYVMLFMTQ4',
+  }
+
+  let expectedOperation = {
+    id: '34806625420185601',
+    sourceAccount: 'GBI6ETOOH625NEDWPN752FSG2PUS3HHLPTPI5JKNKQCVXRLKKC33L4GP',
+    type: 'account_merge',
+    createdAt: '2018-03-26T00:15:12Z',
+    transactionId: '24c2febdd241e6c7d312c4ffaa03eb3848e18e25125097cd8b1ac519c68d0261',
+    account: 'GBI6ETOOH625NEDWPN752FSG2PUS3HHLPTPI5JKNKQCVXRLKKC33L4GP',
+    into: 'GBXQXNLHQESJZTSUB5OK5UVG5M66S6F6DKCMUPN77L4MZ4VYVMLFMTQ4'
+  }
+
+  let expectedAction = {
+    type: 'ADD_ACCOUNT_MERGE_OPERATION',
+    accountId: accountId,
+    operation: expectedOperation
+  }
+
+  const mockDispatch = jest.fn()
+  OperationService.dispatch = mockDispatch
+
+  OperationService.processAccountMerge(accountId, rawCreateAccount)
+
+  expect(mockDispatch.mock.calls.length).toBe(1)
+  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+})
