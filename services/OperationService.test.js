@@ -476,3 +476,38 @@ it('"account_merge" is parsed correctly', () => {
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
 })
+
+it('"inflation" is parsed correctly', () => {
+  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
+  let rawCreateAccount = {
+    id: '34769035866411009',
+    paging_token: '34769035866411009',
+    source_account: 'GDFVVULVNBTKPHYNYRNZWBIJVE33FNMKES4OWVOW4362LELITDNQSR34',
+    type: 'inflation',
+    type_i: 9,
+    created_at: '2018-03-25T12:05:52Z',
+    transaction_hash: '56fff225470dd77387863bd0bf0190227bdbd23842dc3cfd219264a8c0fec1ac',
+  }
+
+  let expectedOperation = {
+    id: '34769035866411009',
+    sourceAccount: 'GDFVVULVNBTKPHYNYRNZWBIJVE33FNMKES4OWVOW4362LELITDNQSR34',
+    type: 'inflation',
+    createdAt: '2018-03-25T12:05:52Z',
+    transactionId: '56fff225470dd77387863bd0bf0190227bdbd23842dc3cfd219264a8c0fec1ac'
+  }
+
+  let expectedAction = {
+    type: 'ADD_INFLATION_OPERATION',
+    accountId: accountId,
+    operation: expectedOperation
+  }
+
+  const mockDispatch = jest.fn()
+  OperationService.dispatch = mockDispatch
+
+  OperationService.processInflation(accountId, rawCreateAccount)
+
+  expect(mockDispatch.mock.calls.length).toBe(1)
+  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+})

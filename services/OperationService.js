@@ -10,7 +10,8 @@ import {
   addSetOptionsOperation,
   addChangeTrustOperation,
   addAllowTrustOperation,
-  addManageDataOperation
+  addManageDataOperation,
+  addInflationOperation
 } from '../actions'
 
 @Connect()
