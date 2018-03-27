@@ -390,3 +390,50 @@ it('"change_trust" is parsed correctly', () => {
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
 })
+
+it('"allow_trust" is parsed correctly', () => {
+  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
+  let rawCreateAccount = {
+    id: '34823564771201025',
+    paging_token: '34823564771201025',
+    source_account: 'GB6ASOXVGN7TJ4XHQX7JRJHWRXLS52R44ZIS77HUCUGVQBTUZRSMIDIW',
+    type: 'allow_trust',
+    type_i: 7,
+    created_at: '2018-03-26T05:44:27Z',
+    transaction_hash: '48971e81c3da68ed2f3cf047cd8372b2c68306c50de0ca33be2878f6c3e918b1',
+    asset_type: 'credit_alphanum4',
+    asset_code: 'OG',
+    asset_issuer: 'GB6ASOXVGN7TJ4XHQX7JRJHWRXLS52R44ZIS77HUCUGVQBTUZRSMIDIW',
+    trustee: 'GB6ASOXVGN7TJ4XHQX7JRJHWRXLS52R44ZIS77HUCUGVQBTUZRSMIDIW',
+    trustor: 'GBDKJ5MYONYCYKS3HSKTP33DZGWKDDDJ3OY6TOSOZX7AKJ3YVFSEPJMK',
+    authorize: true
+  }
+
+  let expectedOperation = {
+    id: '34823564771201025',
+    sourceAccount: 'GB6ASOXVGN7TJ4XHQX7JRJHWRXLS52R44ZIS77HUCUGVQBTUZRSMIDIW',
+    type: 'allow_trust',
+    createdAt: '2018-03-26T05:44:27Z',
+    transactionId: '48971e81c3da68ed2f3cf047cd8372b2c68306c50de0ca33be2878f6c3e918b1',
+    assetType: 'credit_alphanum4',
+    assetCode: 'OG',
+    assetIssuer: 'GB6ASOXVGN7TJ4XHQX7JRJHWRXLS52R44ZIS77HUCUGVQBTUZRSMIDIW',
+    trustee: 'GB6ASOXVGN7TJ4XHQX7JRJHWRXLS52R44ZIS77HUCUGVQBTUZRSMIDIW',
+    trustor: 'GBDKJ5MYONYCYKS3HSKTP33DZGWKDDDJ3OY6TOSOZX7AKJ3YVFSEPJMK',
+    authorize: true
+  }
+
+  let expectedAction = {
+    type: 'ADD_ALLOW_TRUST_OPERATION',
+    accountId: accountId,
+    operation: expectedOperation
+  }
+
+  const mockDispatch = jest.fn()
+  OperationService.dispatch = mockDispatch
+
+  OperationService.processAllowTrust(accountId, rawCreateAccount)
+
+  expect(mockDispatch.mock.calls.length).toBe(1)
+  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+})
