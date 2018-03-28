@@ -8,6 +8,63 @@ class EffectService {
       account_created: (rawEffect) => {
         return this.parseAccountCreated(rawEffect)
       },
+      account_removed: (rawEffect) => {
+        return this.parseAccountRemoved(rawEffect)
+      },
+      account_credited: (rawEffect) => {
+        return this.parseAccountCredited(rawEffect)
+      },
+      account_debited: (rawEffect) => {
+        return this.parseAccountDebited(rawEffect)
+      },
+      account_thresholds_updated: (rawEffect) => {
+        return this.parseAccountThresholdsUpdated(rawEffect)
+      },
+      account_home_domain_updated: (rawEffect) => {
+        return this.parseAccountHomeDomainUpdated(rawEffect)
+      },
+      account_flags_updated: (rawEffect) => {
+        return this.parseAccountFlagsUpdated(rawEffect)
+      },
+      account_inflation_destination_updated: (rawEffect) => {
+        return this.parseAccountInflationDestinationUpdated(rawEffect)
+      },
+      signer_created: (rawEffect) => {
+        return this.parseSignerCreated(rawEffect)
+      },
+      signer_removed: (rawEffect) => {
+        return this.parseSignerRemoved(rawEffect)
+      },
+      signer_updated: (rawEffect) => {
+        return this.parseSignerUpdated(rawEffect)
+      },
+      trustline_created: (rawEffect) => {
+        return this.parseTrustlineCreated(rawEffect)
+      },
+      trustline_removed: (rawEffect) => {
+        return this.parseTrustlineRemoved(rawEffect)
+      },
+      trustline_updated: (rawEffect) => {
+        return this.parseTrustlineUpdated(rawEffect)
+      },
+      trustline_authorized: (rawEffect) => {
+        return this.parseTrustlineAuthorized(rawEffect)
+      },
+      trustline_deauthorized: (rawEffect) => {
+        return this.parseTrustlineDeauthorized(rawEffect)
+      },
+      trade: (rawEffect) => {
+        return this.parseTrade(rawEffect)
+      },
+      data_created: (rawEffect) => {
+        return this.parseDataCreated(rawEffect)
+      },
+      data_removed: (rawEffect) => {
+        return this.parseDataRemoved(rawEffect)
+      },
+      data_updated: (rawEffect) => {
+        return this.parseDataUpdated(rawEffect)
+      },
     }
   }
 
