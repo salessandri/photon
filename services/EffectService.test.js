@@ -285,3 +285,30 @@ it('"trustline_removed" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseTrustlineRemoved(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"trustline_updated" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034969555004567553-0000000001',
+    paging_token: '34969555004567553-1',
+    account: 'GBDT76UCEYIFHMOWA2WGGG4R7R4R2GZUH5OMTLTB5NDF6C6L5PFI7KHG',
+    type: 'trustline_updated',
+    type_i: 22,
+    asset_type: 'credit_alphanum4',
+    asset_code: 'IBTC',
+    asset_issuer: 'GB7ZHXCNHG5IMEHIS2MG54DR3QJIPAQIBFBKZDMCHSDLJYNJNZXKS4SO',
+    limit: '999999999.0000000',
+  }
+
+  let expectedEffect = {
+    id: '0034969555004567553-0000000001',
+    account: 'GBDT76UCEYIFHMOWA2WGGG4R7R4R2GZUH5OMTLTB5NDF6C6L5PFI7KHG',
+    type: 'trustline_updated',
+    assetType: 'credit_alphanum4',
+    assetIssuer: 'GB7ZHXCNHG5IMEHIS2MG54DR3QJIPAQIBFBKZDMCHSDLJYNJNZXKS4SO',
+    assetCode: 'IBTC',
+    limit: '999999999.0000000',
+  }
+
+  let parsedEffect = EffectService.parseTrustlineUpdated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})

@@ -125,6 +125,17 @@ class EffectService {
     }
   }
 
+  parseTrustlineUpdated(rawEffect) {
+    let basicEffect = this._parseBasicEffect(rawEffect)
+    return {
+      ...basicEffect,
+      assetType: rawEffect.asset_type,
+      assetIssuer: rawEffect.asset_issuer,
+      assetCode: rawEffect.asset_code,
+      limit: rawEffect.limit
+    }
+  }
+
   _parseBasicEffect(rawEffect) {
     return {
       id: rawEffect.id,
