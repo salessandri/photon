@@ -51,6 +51,16 @@ class EffectService {
     }
   }
 
+  parseAccountThresholdsUpdated(rawEffect) {
+    let basicEffect = this._parseBasicEffect(rawEffect)
+    return {
+      ...basicEffect,
+      lowThreshold: rawEffect.low_threshold,
+      mediumThreshold: rawEffect.med_threshold,
+      highThreshold: rawEffect.high_threshold
+    }
+  }
+
   _parseBasicEffect(rawEffect) {
     return {
       id: rawEffect.id,

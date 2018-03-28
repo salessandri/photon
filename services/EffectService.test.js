@@ -93,3 +93,28 @@ it('"account_debited" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseAccountDebited(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"account_thresholds_updated" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034969061083320321-0000000001',
+    paging_token: '34969061083320321-1',
+    account: 'GCWWC4CDCERQBNORFAWMSKKZOZG3DADS7UXCC2LHRUILRTV2KIUA4X5V',
+    type: 'account_thresholds_updated',
+    type_i: 4,
+    low_threshold: 2,
+    med_threshold: 3,
+    high_threshold: 5,
+  }
+
+  let expectedEffect = {
+    id: '0034969061083320321-0000000001',
+    account: 'GCWWC4CDCERQBNORFAWMSKKZOZG3DADS7UXCC2LHRUILRTV2KIUA4X5V',
+    type: 'account_thresholds_updated',
+    lowThreshold: 2,
+    mediumThreshold: 3,
+    highThreshold: 5
+  }
+
+  let parsedEffect = EffectService.parseAccountThresholdsUpdated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
