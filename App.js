@@ -17,6 +17,7 @@ import photonApp from './reducers'
 import PhotonAppContainer from './containers/PhotonAppContainer';
 
 import AccountService from './services/AccountService'
+import OperationService from './services/OperationService'
 
 const persistConfig = {
   key: 'root',
@@ -35,7 +36,8 @@ let store = createStore(
 )
 
 bindStore(store, [
-  AccountService
+  AccountService,
+  OperationService
 ])
 
 let persistor = persistStore(store)
