@@ -16,4 +16,22 @@ class EffectService {
   parseEffect(rawEffect) {
 
   }
+
+  parseAccountCreated(rawEffect) {
+    let basicEffect = this._parseBasicEffect(rawEffect)
+    return {
+      ...basicEffect,
+      startingBalance: rawEffect.starting_balance
+    }
+  }
+
+  _parseBasicEffect(rawEffect) {
+    return {
+      id: rawEffect.id,
+      account: rawEffect.account,
+      type: rawEffect.type
+    }
+  }
 }
+
+export default new EffectService()
