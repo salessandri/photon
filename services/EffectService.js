@@ -29,6 +29,17 @@ class EffectService {
     return this._parseBasicEffect(rawEffect)
   }
 
+  parseAccountCredited(rawEffect) {
+    let basicEffect = this._parseBasicEffect(rawEffect)
+    return {
+      ...basicEffect,
+      assetType: rawEffect.asset_type,
+      assetIssuer: rawEffect.asset_issuer,
+      assetCode: rawEffect.asset_code,
+      amount: rawEffect.amount
+    }
+  }
+
   _parseBasicEffect(rawEffect) {
     return {
       id: rawEffect.id,
