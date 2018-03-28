@@ -118,3 +118,24 @@ it('"account_thresholds_updated" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseAccountThresholdsUpdated(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"account_home_domain_updated" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034969550709596161-0000000001',
+    paging_token: '34969550709596161-1',
+    account: 'GB7ZHXCNHG5IMEHIS2MG54DR3QJIPAQIBFBKZDMCHSDLJYNJNZXKS4SO',
+    type: 'account_home_domain_updated',
+    type_i: 5,
+    home_domain: 'horizon.globalblockchain.io',
+  }
+
+  let expectedEffect = {
+    id: '0034969550709596161-0000000001',
+    account: 'GB7ZHXCNHG5IMEHIS2MG54DR3QJIPAQIBFBKZDMCHSDLJYNJNZXKS4SO',
+    type: 'account_home_domain_updated',
+    homeDomain: 'horizon.globalblockchain.io'
+  }
+
+  let parsedEffect = EffectService.parseAccountHomeDomainUpdated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})

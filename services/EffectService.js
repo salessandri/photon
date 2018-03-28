@@ -61,6 +61,14 @@ class EffectService {
     }
   }
 
+  parseAccountHomeDomainUpdated(rawEffect) {
+    let basicEffect = this._parseBasicEffect(rawEffect)
+    return {
+      ...basicEffect,
+      homeDomain: rawEffect.home_domain
+    }
+  }
+
   _parseBasicEffect(rawEffect) {
     return {
       id: rawEffect.id,
