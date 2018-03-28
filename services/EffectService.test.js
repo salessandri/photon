@@ -231,3 +231,30 @@ it('"signer_created" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseSignerUpdated(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"trustline_created" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034970083285536769-0000000001',
+    paging_token: '34970083285536769-1',
+    account: 'GCQILV76QLVPFNU3UIW62XEPNAPCSCOM5KVKOUCDQNP7QOFOV4SZ72Q2',
+    type: 'trustline_created',
+    type_i: 20,
+    asset_type: 'credit_alphanum4',
+    asset_code: 'HEIR',
+    asset_issuer: 'GBNM2P6S3ZJ37JTHIA36RIJPXEL5SMP55CWRPUFUB5TXGUZUD7UNXMNO',
+    limit: '1000000.0000000',
+  }
+
+  let expectedEffect = {
+    id: '0034970083285536769-0000000001',
+    account: 'GCQILV76QLVPFNU3UIW62XEPNAPCSCOM5KVKOUCDQNP7QOFOV4SZ72Q2',
+    type: 'trustline_created',
+    assetType: 'credit_alphanum4',
+    assetIssuer: 'GBNM2P6S3ZJ37JTHIA36RIJPXEL5SMP55CWRPUFUB5TXGUZUD7UNXMNO',
+    assetCode: 'HEIR',
+    limit: '1000000.0000000',
+  }
+
+  let parsedEffect = EffectService.parseTrustlineCreated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
