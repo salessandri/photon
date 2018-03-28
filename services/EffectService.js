@@ -187,6 +187,10 @@ class EffectService {
     return this._parseBasicEffect(rawEffect)
   }
 
+  parseDataRemoved(rawEffect) {
+    return this._parseBasicEffect(rawEffect)
+  }
+
   _parseBasicEffect(rawEffect) {
     return {
       id: rawEffect.id,
