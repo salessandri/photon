@@ -181,3 +181,53 @@ it('"account_inflation_destination_updated" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseAccountInflationDestinationUpdated(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"signer_created" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034970078990577665-0000000003',
+    paging_token: '34970078990577665-3',
+    account: 'GCQILV76QLVPFNU3UIW62XEPNAPCSCOM5KVKOUCDQNP7QOFOV4SZ72Q2',
+    type: 'signer_created',
+    type_i: 10,
+    weight: 1,
+    public_key: 'GCQILV76QLVPFNU3UIW62XEPNAPCSCOM5KVKOUCDQNP7QOFOV4SZ72Q2',
+    key: '',
+  }
+
+  let expectedEffect = {
+    id: '0034970078990577665-0000000003',
+    account: 'GCQILV76QLVPFNU3UIW62XEPNAPCSCOM5KVKOUCDQNP7QOFOV4SZ72Q2',
+    type: 'signer_created',
+    publicKey: 'GCQILV76QLVPFNU3UIW62XEPNAPCSCOM5KVKOUCDQNP7QOFOV4SZ72Q2',
+    key: '',
+    weight: 1
+  }
+
+  let parsedEffect = EffectService.parseSignerCreated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
+
+it('"signer_created" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034969348846141441-0000000002',
+    paging_token: '34969348846141441-2',
+    account: 'GCWWC4CDCERQBNORFAWMSKKZOZG3DADS7UXCC2LHRUILRTV2KIUA4X5V',
+    type: 'signer_updated',
+    type_i: 12,
+    weight: 1,
+    public_key: 'GB43TTNF3FDDT2UH3F62L2BLZXJSDN2UFIDMLDBAAKOLH6ZR6CHZZ6EF',
+    key: '',
+  }
+
+  let expectedEffect = {
+    id: '0034969348846141441-0000000002',
+    account: 'GCWWC4CDCERQBNORFAWMSKKZOZG3DADS7UXCC2LHRUILRTV2KIUA4X5V',
+    type: 'signer_updated',
+    publicKey: 'GB43TTNF3FDDT2UH3F62L2BLZXJSDN2UFIDMLDBAAKOLH6ZR6CHZZ6EF',
+    key: '',
+    weight: 1
+  }
+
+  let parsedEffect = EffectService.parseSignerUpdated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
