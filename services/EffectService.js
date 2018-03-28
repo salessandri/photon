@@ -166,6 +166,23 @@ class EffectService {
     }
   }
 
+  parseTrade(rawEffect) {
+    let basicEffect = this._parseBasicEffect(rawEffect)
+    return {
+      ...basicEffect,
+      offerId: rawEffect.offer_id,
+      seller: rawEffect.seller,
+      soldAssetType: rawEffect.sold_asset_type,
+      soldAssetIssuer: rawEffect.sold_asset_issuer,
+      soldAssetCode: rawEffect.sold_asset_code,
+      soldAmount: rawEffect.sold_amount,
+      boughtAssetType: rawEffect.bought_asset_type,
+      boughtAssetIssuer: rawEffect.bought_asset_issuer,
+      boughtAssetCode: rawEffect.bought_asset_code,
+      boughtAmount: rawEffect.bought_amount,
+    }
+  }
+
   _parseBasicEffect(rawEffect) {
     return {
       id: rawEffect.id,

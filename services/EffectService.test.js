@@ -387,3 +387,42 @@ it('"trustline_deauthorized" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseTrustlineDeauthorized(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"trade" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034972106215141377-0000000002',
+    paging_token: '34972106215141377-2',
+    account: 'GBH25RYXAEDKPZUIMC5VJBKNYRUULY5B2LH5NVG6Q3RZPHK5KPFBZX7T',
+    type: 'trade',
+    type_i: 33,
+    seller: 'GCVHU53NNG3GCCZP5W5EFFDRM2SGT4UXS3UABJ6M6TMJL6S74EOKBHXJ',
+    offer_id: 145229,
+    sold_amount: '0.0028237',
+    sold_asset_type: 'credit_alphanum4',
+    sold_asset_code: 'LTC',
+    sold_asset_issuer: 'GA77B6GK5K3FH2YJ6I5VJ7VPFZKPBQUX2IIC2MJYAERQTGJI4VOPKRYJ',
+    bought_amount: '0.0000483',
+    bought_asset_type: 'credit_alphanum4',
+    bought_asset_code: 'BTC',
+    bought_asset_issuer: 'GA77B6GK5K3FH2YJ6I5VJ7VPFZKPBQUX2IIC2MJYAERQTGJI4VOPKRYJ',
+  }
+
+  let expectedEffect = {
+    id: '0034972106215141377-0000000002',
+    account: 'GBH25RYXAEDKPZUIMC5VJBKNYRUULY5B2LH5NVG6Q3RZPHK5KPFBZX7T',
+    type: 'trade',
+    offerId: 145229,
+    seller: 'GCVHU53NNG3GCCZP5W5EFFDRM2SGT4UXS3UABJ6M6TMJL6S74EOKBHXJ',
+    soldAmount: '0.0028237',
+    soldAssetType: 'credit_alphanum4',
+    soldAssetIssuer: 'GA77B6GK5K3FH2YJ6I5VJ7VPFZKPBQUX2IIC2MJYAERQTGJI4VOPKRYJ',
+    soldAssetCode: 'LTC',
+    boughtAmount: '0.0000483',
+    boughtAssetType: 'credit_alphanum4',
+    boughtAssetIssuer: 'GA77B6GK5K3FH2YJ6I5VJ7VPFZKPBQUX2IIC2MJYAERQTGJI4VOPKRYJ',
+    boughtAssetCode: 'BTC'
+  }
+
+  let parsedEffect = EffectService.parseTrade(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
