@@ -464,3 +464,22 @@ it('"data_removed" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseDataRemoved(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"data_updated" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034951687940612103-0000000001',
+    paging_token: '34951687940612103-1',
+    account: 'GCJSP5ZAYKJD3DN2CT5MTAQRIGMOOUJY7OVCNAQKAAOYETZ3GAJ42TAY',
+    type: 'data_updated',
+    type_i: 42,
+  }
+
+  let expectedEffect = {
+    id: '0034951687940612103-0000000001',
+    account: 'GCJSP5ZAYKJD3DN2CT5MTAQRIGMOOUJY7OVCNAQKAAOYETZ3GAJ42TAY',
+    type: 'data_updated'
+  }
+
+  let parsedEffect = EffectService.parseDataUpdated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
