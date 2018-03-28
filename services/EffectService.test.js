@@ -426,3 +426,22 @@ it('"trade" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseTrade(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"data_created" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034951687940612100-0000000001',
+    paging_token: '34951687940612100-1',
+    account: 'GCJSP5ZAYKJD3DN2CT5MTAQRIGMOOUJY7OVCNAQKAAOYETZ3GAJ42TAY',
+    type: 'data_created',
+    type_i: 40,
+  }
+
+  let expectedEffect = {
+    id: '0034951687940612100-0000000001',
+    account: 'GCJSP5ZAYKJD3DN2CT5MTAQRIGMOOUJY7OVCNAQKAAOYETZ3GAJ42TAY',
+    type: 'data_created'
+  }
+
+  let parsedEffect = EffectService.parseDataCreated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
