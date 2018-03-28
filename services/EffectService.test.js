@@ -68,3 +68,28 @@ it('"account_credited" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseAccountCredited(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"account_debited" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034970078990577665-0000000002',
+    paging_token: '34970078990577665-2',
+    account: 'GAIH3ULLFQ4DGSECF2AR555KZ4KNDGEKN4AFI4SU2M7B43MGK3QJZNSR',
+    type: 'account_debited',
+    type_i: 3,
+    asset_type: 'native',
+    amount: '10000.0000000',
+  }
+
+  let expectedEffect = {
+    id: '0034970078990577665-0000000002',
+    account: 'GAIH3ULLFQ4DGSECF2AR555KZ4KNDGEKN4AFI4SU2M7B43MGK3QJZNSR',
+    type: 'account_debited',
+    assetType: 'native',
+    assetIssuer: undefined,
+    assetCode: undefined,
+    amount: '10000.0000000',
+  }
+
+  let parsedEffect = EffectService.parseAccountDebited(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
