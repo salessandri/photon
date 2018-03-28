@@ -93,6 +93,16 @@ class EffectService {
     }
   }
 
+  parseSignerRemoved(rawEffect) {
+    let basicEffect = this._parseBasicEffect(rawEffect)
+    return {
+      ...basicEffect,
+      publicKey: rawEffect.public_key,
+      key: rawEffect.key,
+      weight: rawEffect.weight
+    }
+  }
+
   parseSignerUpdated(rawEffect) {
     let basicEffect = this._parseBasicEffect(rawEffect)
     return {

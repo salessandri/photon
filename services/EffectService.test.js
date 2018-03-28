@@ -207,7 +207,32 @@ it('"signer_created" effect is parsed correctly', () => {
   expect(parsedEffect).toEqual(expectedEffect)
 })
 
-it('"signer_created" effect is parsed correctly', () => {
+it('"signer_removed" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034946873282281473-0000000001',
+    paging_token: '34946873282281473-1',
+    account: 'GAPNXKCJQUZ3OFLSCR5XM2EHYWD3CABWORY66UDXJEL3YDZYBFGHU4ZR',
+    type: 'signer_removed',
+    type_i: 11,
+    weight: 0,
+    public_key: 'GAPNXKCJQUZ3OFLSCR5XM2EHYWD3CABWORY66UDXJEL3YDZYBFGHU4ZR',
+    key: '',
+  }
+
+  let expectedEffect = {
+    id: '0034946873282281473-0000000001',
+    account: 'GAPNXKCJQUZ3OFLSCR5XM2EHYWD3CABWORY66UDXJEL3YDZYBFGHU4ZR',
+    type: 'signer_removed',
+    publicKey: 'GAPNXKCJQUZ3OFLSCR5XM2EHYWD3CABWORY66UDXJEL3YDZYBFGHU4ZR',
+    key: '',
+    weight: 0
+  }
+
+  let parsedEffect = EffectService.parseSignerRemoved(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
+
+it('"signer_updated" effect is parsed correctly', () => {
   let rawEffect = {
     id: '0034969348846141441-0000000002',
     paging_token: '34969348846141441-2',
