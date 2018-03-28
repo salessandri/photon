@@ -162,3 +162,22 @@ it('"account_flags_updated" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseAccountFlagsUpdated(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"account_inflation_destination_updated" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034969116917899265-0000000001',
+    paging_token: '34969116917899265-1',
+    account: 'GBKTCGKGJ36T3VOUAMQA24WKYSLC2BXEJIKJABOOLWJQ2LWBH72R4SX6',
+    type: 'account_inflation_destination_updated',
+    type_i: 7,
+  }
+
+  let expectedEffect = {
+    id: '0034969116917899265-0000000001',
+    account: 'GBKTCGKGJ36T3VOUAMQA24WKYSLC2BXEJIKJABOOLWJQ2LWBH72R4SX6',
+    type: 'account_inflation_destination_updated'
+  }
+
+  let parsedEffect = EffectService.parseAccountInflationDestinationUpdated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
