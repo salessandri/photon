@@ -312,3 +312,28 @@ it('"trustline_updated" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseTrustlineUpdated(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"trustline_authorized" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034969559299526657-0000000001',
+    paging_token: '34969559299526657-1',
+    account: 'GB7ZHXCNHG5IMEHIS2MG54DR3QJIPAQIBFBKZDMCHSDLJYNJNZXKS4SO',
+    type: 'trustline_authorized',
+    type_i: 23,
+    trustor: 'GBDT76UCEYIFHMOWA2WGGG4R7R4R2GZUH5OMTLTB5NDF6C6L5PFI7KHG',
+    asset_type: 'credit_alphanum4',
+    asset_code: 'IBTC',
+  }
+
+  let expectedEffect = {
+    id: '0034969559299526657-0000000001',
+    account: 'GB7ZHXCNHG5IMEHIS2MG54DR3QJIPAQIBFBKZDMCHSDLJYNJNZXKS4SO',
+    type: 'trustline_authorized',
+    assetType: 'credit_alphanum4',
+    assetCode: 'IBTC',
+    trustor: 'GBDT76UCEYIFHMOWA2WGGG4R7R4R2GZUH5OMTLTB5NDF6C6L5PFI7KHG',
+  }
+
+  let parsedEffect = EffectService.parseTrustlineAuthorized(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
