@@ -69,6 +69,16 @@ class EffectService {
     }
   }
 
+  parseAccountFlagsUpdated(rawEffect) {
+    let basicEffect = this._parseBasicEffect(rawEffect)
+    return {
+      ...basicEffect,
+      authRequiredFlag: rawEffect.auth_required_flag,
+      authRevocableFlag: rawEffect.auth_revocable_flag,
+      authImmutableFlag: rawEffect.auth_immutable_flag
+    }
+  }
+
   _parseBasicEffect(rawEffect) {
     return {
       id: rawEffect.id,

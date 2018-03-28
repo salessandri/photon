@@ -139,3 +139,26 @@ it('"account_home_domain_updated" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseAccountHomeDomainUpdated(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"account_flags_updated" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034969550709596161-0000000002',
+    paging_token: '34969550709596161-2',
+    account: 'GB7ZHXCNHG5IMEHIS2MG54DR3QJIPAQIBFBKZDMCHSDLJYNJNZXKS4SO',
+    type: 'account_flags_updated',
+    type_i: 6,
+    auth_required_flag: true,
+  }
+
+  let expectedEffect = {
+    id: '0034969550709596161-0000000002',
+    account: 'GB7ZHXCNHG5IMEHIS2MG54DR3QJIPAQIBFBKZDMCHSDLJYNJNZXKS4SO',
+    type: 'account_flags_updated',
+    authRequiredFlag: true,
+    authRevocableFlag: undefined,
+    authImmutableFlag: undefined
+  }
+
+  let parsedEffect = EffectService.parseAccountFlagsUpdated(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
