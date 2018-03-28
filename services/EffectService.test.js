@@ -337,3 +337,28 @@ it('"trustline_authorized" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseTrustlineAuthorized(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"trustline_deauthorized" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034943420128567297-0000000001',
+    paging_token: '34943420128567297-1',
+    account: 'GCJMLJ7ZVJVFBNTJZ2BL4UUHQGVWVRHJ4354PZ3BK6FDMF2KGDLCF7KP',
+    type: 'trustline_deauthorized',
+    type_i: 24,
+    trustor: 'GC7VTRQU5CPV5GVDWBE346LGKWLHE43M5ERW4QQEHZ5KK77H36BDECTN',
+    asset_type: 'credit_alphanum4',
+    asset_code: 'USD',
+  }
+
+  let expectedEffect = {
+    id: '0034943420128567297-0000000001',
+    account: 'GCJMLJ7ZVJVFBNTJZ2BL4UUHQGVWVRHJ4354PZ3BK6FDMF2KGDLCF7KP',
+    type: 'trustline_deauthorized',
+    assetType: 'credit_alphanum4',
+    assetCode: 'USD',
+    trustor: 'GC7VTRQU5CPV5GVDWBE346LGKWLHE43M5ERW4QQEHZ5KK77H36BDECTN',
+  }
+
+  let parsedEffect = EffectService.parseTrustlineDeauthorized(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})

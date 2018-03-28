@@ -146,6 +146,16 @@ class EffectService {
     }
   }
 
+  parseTrustlineDeauthorized(rawEffect) {
+    let basicEffect = this._parseBasicEffect(rawEffect)
+    return {
+      ...basicEffect,
+      assetType: rawEffect.asset_type,
+      assetCode: rawEffect.asset_code,
+      trustor: rawEffect.trustor
+    }
+  }
+
   _parseBasicEffect(rawEffect) {
     return {
       id: rawEffect.id,
