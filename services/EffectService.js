@@ -4,6 +4,11 @@ class EffectService {
 
   constructor() {
     this._stellarNetworkService = StellarNetworkService
+    this._parserByType = {
+      account_created: (rawEffect) => {
+        return this.parseAccountCreated(rawEffect)
+      },
+    }
   }
 
   async getEffectsForOperation(operationId) {
@@ -14,7 +19,11 @@ class EffectService {
   }
 
   parseEffect(rawEffect) {
-
+    if (!(rawEffect.type in this._parserByType)) {
+      log.error('Found an unknown effect type: ' + rawEffect.type)
+      return
+    }
+    return this._parserByType[rawEffect.type](rawEffect)
   }
 
   parseAccountCreated(rawEffect) {
