@@ -258,3 +258,30 @@ it('"trustline_created" effect is parsed correctly', () => {
   let parsedEffect = EffectService.parseTrustlineCreated(rawEffect)
   expect(parsedEffect).toEqual(expectedEffect)
 })
+
+it('"trustline_removed" effect is parsed correctly', () => {
+  let rawEffect = {
+    id: '0034968077535809537-0000000001',
+    paging_token: '34968077535809537-1',
+    account: 'GDXOA4HTIKVTDF6TO2TWFMZB44Y44UUBGFQN3WWCWDNN6AEYWHIQYFZW',
+    type: 'trustline_removed',
+    type_i: 21,
+    asset_type: 'credit_alphanum4',
+    asset_code: 'CM10',
+    asset_issuer: 'GBUJJAYHS64L4RDHPLURQJUKSHHPINSAYXYVMWPEF4LECHDKB2EFMKBX',
+    limit: '0.0000000',
+  }
+
+  let expectedEffect = {
+    id: '0034968077535809537-0000000001',
+    account: 'GDXOA4HTIKVTDF6TO2TWFMZB44Y44UUBGFQN3WWCWDNN6AEYWHIQYFZW',
+    type: 'trustline_removed',
+    assetType: 'credit_alphanum4',
+    assetIssuer: 'GBUJJAYHS64L4RDHPLURQJUKSHHPINSAYXYVMWPEF4LECHDKB2EFMKBX',
+    assetCode: 'CM10',
+    limit: '0.0000000',
+  }
+
+  let parsedEffect = EffectService.parseTrustlineRemoved(rawEffect)
+  expect(parsedEffect).toEqual(expectedEffect)
+})
