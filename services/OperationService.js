@@ -1,53 +1,40 @@
-import {
-  addCreateAccountOperation,
-  addAccountMergeOperation,
-  addPaymentOperation,
-  addPathPaymentOperation,
-  addManageOfferOperation,
-  addCreatePassiveOfferOperation,
-  addSetOptionsOperation,
-  addChangeTrustOperation,
-  addAllowTrustOperation,
-  addManageDataOperation,
-  addInflationOperation
-} from '../actions'
 
 class OperationService {
 
   constructor() {
     this._parsers = {
       create_account: (accountId, rawOperation) => {
-        this.parseCreateAccount(accountId, rawOperation)
+        return this.parseCreateAccount(accountId, rawOperation)
       },
       payment: (accountId, rawOperation) => {
-        this.parsePayment(accountId, rawOperation)
+        return this.parsePayment(accountId, rawOperation)
       },
       path_payment: (accountId, rawOperation) => {
-        this.parsePathPayment(accountId, rawOperation)
+        return this.parsePathPayment(accountId, rawOperation)
       },
       manage_offer: (accountId, rawOperation) => {
-        this.parseManageOffer(accountId, rawOperation)
+        return this.parseManageOffer(accountId, rawOperation)
       },
       create_passive_offer: (accountId, rawOperation) => {
-        this.parseCreatePassiveOffer(accountId, rawOperation)
+        return this.parseCreatePassiveOffer(accountId, rawOperation)
       },
       set_options: (accountId, rawOperation) => {
-        this.parseSetOptions(accountId, rawOperation)
+        return this.parseSetOptions(accountId, rawOperation)
       },
       change_trust: (accountId, rawOperation) => {
-        this.parseChangeTrust(accountId, rawOperation)
+        return this.parseChangeTrust(accountId, rawOperation)
       },
       allow_trust: (accountId, rawOperation) => {
-        this.parseAllowTrust(accountId, rawOperation)
+        return this.parseAllowTrust(accountId, rawOperation)
       },
       account_merge: (accountId, rawOperation) => {
-        this.parseAccountMerge(accountId, rawOperation)
+        return this.parseAccountMerge(accountId, rawOperation)
       },
       inflation: (accountId, rawOperation) => {
-        this.parseInflation(accountId, rawOperation)
+        return this.parseInflation(accountId, rawOperation)
       },
       manage_data: (accountId, rawOperation) => {
-        this.parseManageData(accountId, rawOperation)
+        return this.parseManageData(accountId, rawOperation)
       }
     }
   }
@@ -57,24 +44,22 @@ class OperationService {
       log.error('Found an unknown operation type: ' + rawOperation.type)
       return
     }
-    this._parsers[rawOperation.type](accountId, rawOperation)
+    return this._parsers[rawOperation.type](accountId, rawOperation)
   }
 
   parseCreateAccount(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
-    let modelOp = {
+    return {
       ...basicOp,
       startingBalance: operation.starting_balance,
       funder: operation.funder,
       account: operation.account
     }
-    let action = addCreateAccountOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   parsePayment(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
-    let modelOp = {
+    return {
       ...basicOp,
       assetType: operation.asset_type,
       assetCode: operation.asset_code,
@@ -83,8 +68,6 @@ class OperationService {
       to: operation.to,
       amount: operation.amount
     }
-    let action = addPaymentOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   parsePathPayment(accountId, operation) {
@@ -96,7 +79,7 @@ class OperationService {
         assetCode: p.asset_code
       }
     })
-    let modelOp = {
+    return {
       ...basicOp,
       from: operation.from,
       to: operation.to,
@@ -110,13 +93,11 @@ class OperationService {
       destinationAmount: operation.amount,
       path: path
     }
-    let action = addPathPaymentOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   parseManageOffer(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
-    let modelOp = {
+    return {
       ...basicOp,
       offerId: operation.offer_id,
       amount: operation.amount,
@@ -129,13 +110,11 @@ class OperationService {
       sellingAssetIssuer: operation.selling_asset_issuer,
       sellingAssetCode: operation.selling_asset_code
     }
-    let action = addManageOfferOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   parseCreatePassiveOffer(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
-    let modelOp = {
+    return {
       ...basicOp,
       offerId: operation.offer_id,
       amount: operation.amount,
@@ -148,13 +127,11 @@ class OperationService {
       sellingAssetIssuer: operation.selling_asset_issuer,
       sellingAssetCode: operation.selling_asset_code
     }
-    let action = addCreatePassiveOfferOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   parseSetOptions(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
-    let modelOp = {
+    return {
       ...basicOp,
       signerKey: operation.signer_key,
       signerWeight: operation.signer_weight,
@@ -166,13 +143,11 @@ class OperationService {
       flagsSet: operation.set_flags_s,
       flagsCleared: operation.clear_flags_s
     }
-    let action = addSetOptionsOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   parseChangeTrust(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
-    let modelOp = {
+    return {
       ...basicOp,
       assetType: operation.asset_type,
       assetIssuer: operation.asset_issuer,
@@ -181,13 +156,11 @@ class OperationService {
       trustor: operation.trustor,
       limit: operation.limit
     }
-    let action = addChangeTrustOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   parseAllowTrust(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
-    let modelOp = {
+    return {
       ...basicOp,
       assetType: operation.asset_type,
       assetIssuer: operation.asset_issuer,
@@ -196,36 +169,28 @@ class OperationService {
       trustor: operation.trustor,
       authorize: operation.authorize
     }
-    let action = addAllowTrustOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   parseAccountMerge(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
-    let modelOp = {
+    return {
       ...basicOp,
       account: operation.account,
       into: operation.into
     }
-    let action = addAccountMergeOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   parseInflation(accountId, operation) {
-    let basicOp = this._buildBasicOperation(operation)
-    let action = addInflationOperation(accountId, basicOp)
-    this.dispatch(action)
+    return this._buildBasicOperation(operation)
   }
 
   parseManageData(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
-    let modelOp = {
+    return {
       ...basicOp,
       name: operation.name,
       value: operation.value
     }
-    let action = addManageDataOperation(accountId, modelOp)
-    this.dispatch(action)
   }
 
   _buildBasicOperation(operation) {
