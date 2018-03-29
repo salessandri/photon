@@ -3,7 +3,6 @@ import OperationService from './OperationService'
 /* eslint-env jest */
 
 it('"create_account" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '31726300645306369',
     paging_token: '31726300645306369',
@@ -28,13 +27,12 @@ it('"create_account" is parsed correctly', () => {
     account: 'GBZOAKBYRW6O4GUNT2CKSHR4JZ4FE757Z5VQW4YETQRPZP45IQC2UWAQ'
   }
 
-  let op = OperationService.parseCreateAccount(accountId, rawCreateAccount)
+  let op = OperationService.parseCreateAccount(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"payment" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '10157597659144',
     paging_token: '10157597659144',
@@ -65,13 +63,12 @@ it('"payment" is parsed correctly', () => {
     amount: '1000000.0000000'
   }
 
-  let op = OperationService.parsePayment(accountId, rawCreateAccount)
+  let op = OperationService.parsePayment(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"path_payment" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34806814398746625',
     paging_token: '34806814398746625',
@@ -131,13 +128,12 @@ it('"path_payment" is parsed correctly', () => {
     ]
   }
 
-  let op = OperationService.parsePathPayment(accountId, rawCreateAccount)
+  let op = OperationService.parsePathPayment(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"manage_offer" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34824857556357125',
     paging_token: '34824857556357125',
@@ -176,13 +172,12 @@ it('"manage_offer" is parsed correctly', () => {
     sellingAssetCode: 'BTC',
   }
 
-  let op = OperationService.parseManageOffer(accountId, rawCreateAccount)
+  let op = OperationService.parseManageOffer(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"create_passive_offer" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34823581951074305',
     paging_token: '34823581951074305',
@@ -217,13 +212,12 @@ it('"create_passive_offer" is parsed correctly', () => {
     sellingAssetCode: 'OG',
   }
 
-  let op = OperationService.parseCreatePassiveOffer(accountId, rawCreateAccount)
+  let op = OperationService.parseCreatePassiveOffer(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"set_options" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34823135274471425',
     paging_token: '34823135274471425',
@@ -253,13 +247,12 @@ it('"set_options" is parsed correctly', () => {
     homeDomain: undefined,
   }
 
-  let op = OperationService.parseSetOptions(accountId, rawCreateAccount)
+  let op = OperationService.parseSetOptions(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"change_trust" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34823560476233729',
     paging_token: '34823560476233729',
@@ -290,13 +283,12 @@ it('"change_trust" is parsed correctly', () => {
     trustor: 'GBDKJ5MYONYCYKS3HSKTP33DZGWKDDDJ3OY6TOSOZX7AKJ3YVFSEPJMK'
   }
 
-  let op = OperationService.parseChangeTrust(accountId, rawCreateAccount)
+  let op = OperationService.parseChangeTrust(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"allow_trust" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34823564771201025',
     paging_token: '34823564771201025',
@@ -327,13 +319,12 @@ it('"allow_trust" is parsed correctly', () => {
     authorize: true
   }
 
-  let op = OperationService.parseAllowTrust(accountId, rawCreateAccount)
+  let op = OperationService.parseAllowTrust(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"account_merge" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34806625420185601',
     paging_token: '34806625420185601',
@@ -356,13 +347,12 @@ it('"account_merge" is parsed correctly', () => {
     into: 'GBXQXNLHQESJZTSUB5OK5UVG5M66S6F6DKCMUPN77L4MZ4VYVMLFMTQ4'
   }
 
-  let op = OperationService.parseAccountMerge(accountId, rawCreateAccount)
+  let op = OperationService.parseAccountMerge(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"inflation" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34769035866411009',
     paging_token: '34769035866411009',
@@ -381,13 +371,12 @@ it('"inflation" is parsed correctly', () => {
     transactionId: '56fff225470dd77387863bd0bf0190227bdbd23842dc3cfd219264a8c0fec1ac'
   }
 
-  let op = OperationService.parseInflation(accountId, rawCreateAccount)
+  let op = OperationService.parseInflation(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
 
 it('"manage_data" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34820472394747905',
     paging_token: '34820472394747905',
@@ -410,7 +399,7 @@ it('"manage_data" is parsed correctly', () => {
     value: 'MS4w'
   }
 
-  let op = OperationService.parseManageData(accountId, rawCreateAccount)
+  let op = OperationService.parseManageData(rawCreateAccount)
 
   expect(op).toEqual(expectedOperation)
 })
