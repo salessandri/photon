@@ -3,21 +3,7 @@ import OperationService from './OperationService'
 /* eslint-env jest */
 
 it('"create_account" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
-    _links:
-      {
-        self:
-          { href: 'https://horizon-testnet.stellar.org/operations/31726300645306369' },
-        transaction:
-          { href: 'https://horizon-testnet.stellar.org/transactions/5a54f104b5effc385b4ac575730861ae4eca952dba33bfc4749a520071f2227c' },
-        effects:
-          { href: 'https://horizon-testnet.stellar.org/operations/31726300645306369/effects' },
-        succeeds:
-          { href: 'https://horizon-testnet.stellar.org/effects?order=desc&cursor=31726300645306369' },
-        precedes:
-          { href: 'https://horizon-testnet.stellar.org/effects?order=asc&cursor=31726300645306369' }
-      },
     id: '31726300645306369',
     paging_token: '31726300645306369',
     source_account: 'GAIH3ULLFQ4DGSECF2AR555KZ4KNDGEKN4AFI4SU2M7B43MGK3QJZNSR',
@@ -41,37 +27,13 @@ it('"create_account" is parsed correctly', () => {
     account: 'GBZOAKBYRW6O4GUNT2CKSHR4JZ4FE757Z5VQW4YETQRPZP45IQC2UWAQ'
   }
 
-  let expectedAction = {
-    type: 'ADD_CREATE_ACCOUNT_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parseCreateAccount(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processCreateAccount(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"payment" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
-    _links:
-      {
-        self:
-          { href: 'https://horizon-testnet.stellar.org/operations/10157597659144' },
-        transaction:
-          { href: 'https://horizon-testnet.stellar.org/transactions/17a670bc424ff5ce3b386dbfaae9990b66a2a37b4fbe51547e8794962a3f9e6a' },
-        effects:
-          { href: 'https://horizon-testnet.stellar.org/operations/10157597659144/effects' },
-        succeeds:
-          { href: 'https://horizon-testnet.stellar.org/effects?order=desc&cursor=10157597659144' },
-        precedes:
-          { href: 'https://horizon-testnet.stellar.org/effects?order=asc&cursor=10157597659144' }
-      },
     id: '10157597659144',
     paging_token: '10157597659144',
     source_account: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
@@ -101,23 +63,12 @@ it('"payment" is parsed correctly', () => {
     amount: '1000000.0000000'
   }
 
-  let expectedAction = {
-    type: 'ADD_PAYMENT_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parsePayment(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processPayment(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"path_payment" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34806814398746625',
     paging_token: '34806814398746625',
@@ -177,23 +128,12 @@ it('"path_payment" is parsed correctly', () => {
     ]
   }
 
-  let expectedAction = {
-    type: 'ADD_PATH_PAYMENT_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parsePathPayment(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processPathPayment(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"manage_offer" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34824857556357125',
     paging_token: '34824857556357125',
@@ -232,23 +172,12 @@ it('"manage_offer" is parsed correctly', () => {
     sellingAssetCode: 'BTC',
   }
 
-  let expectedAction = {
-    type: 'ADD_MANAGE_OFFER_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parseManageOffer(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processManageOffer(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"create_passive_offer" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34823581951074305',
     paging_token: '34823581951074305',
@@ -283,23 +212,12 @@ it('"create_passive_offer" is parsed correctly', () => {
     sellingAssetCode: 'OG',
   }
 
-  let expectedAction = {
-    type: 'ADD_CREATE_PASSIVE_OFFER_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parseCreatePassiveOffer(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processCreatePassiveOffer(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"set_options" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34823135274471425',
     paging_token: '34823135274471425',
@@ -329,23 +247,12 @@ it('"set_options" is parsed correctly', () => {
     homeDomain: undefined,
   }
 
-  let expectedAction = {
-    type: 'ADD_SET_OPTIONS_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parseSetOptions(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processSetOptions(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"change_trust" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34823560476233729',
     paging_token: '34823560476233729',
@@ -376,23 +283,12 @@ it('"change_trust" is parsed correctly', () => {
     trustor: 'GBDKJ5MYONYCYKS3HSKTP33DZGWKDDDJ3OY6TOSOZX7AKJ3YVFSEPJMK'
   }
 
-  let expectedAction = {
-    type: 'ADD_CHANGE_TRUST_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parseChangeTrust(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processChangeTrust(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"allow_trust" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34823564771201025',
     paging_token: '34823564771201025',
@@ -423,23 +319,12 @@ it('"allow_trust" is parsed correctly', () => {
     authorize: true
   }
 
-  let expectedAction = {
-    type: 'ADD_ALLOW_TRUST_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parseAllowTrust(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processAllowTrust(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"account_merge" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34806625420185601',
     paging_token: '34806625420185601',
@@ -462,23 +347,12 @@ it('"account_merge" is parsed correctly', () => {
     into: 'GBXQXNLHQESJZTSUB5OK5UVG5M66S6F6DKCMUPN77L4MZ4VYVMLFMTQ4'
   }
 
-  let expectedAction = {
-    type: 'ADD_ACCOUNT_MERGE_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parseAccountMerge(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processAccountMerge(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"inflation" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34769035866411009',
     paging_token: '34769035866411009',
@@ -497,23 +371,12 @@ it('"inflation" is parsed correctly', () => {
     transactionId: '56fff225470dd77387863bd0bf0190227bdbd23842dc3cfd219264a8c0fec1ac'
   }
 
-  let expectedAction = {
-    type: 'ADD_INFLATION_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parseInflation(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processInflation(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
 
 it('"manage_data" is parsed correctly', () => {
-  let accountId = 'GAMQWR5ULFVVQWCLU7PL6ZCW7M2IQGJP5FY6LG3HXS4XWPM3F5VDN5IV'
   let rawCreateAccount = {
     id: '34820472394747905',
     paging_token: '34820472394747905',
@@ -536,17 +399,7 @@ it('"manage_data" is parsed correctly', () => {
     value: 'MS4w'
   }
 
-  let expectedAction = {
-    type: 'ADD_MANAGE_DATA_OPERATION',
-    accountId: accountId,
-    operation: expectedOperation
-  }
+  let op = OperationService.parseManageData(rawCreateAccount)
 
-  const mockDispatch = jest.fn()
-  OperationService.dispatch = mockDispatch
-
-  OperationService.processManageData(accountId, rawCreateAccount)
-
-  expect(mockDispatch.mock.calls.length).toBe(1)
-  expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+  expect(op).toEqual(expectedOperation)
 })
