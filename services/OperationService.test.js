@@ -50,7 +50,7 @@ it('"create_account" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processCreateAccount(accountId, rawCreateAccount)
+  OperationService.parseCreateAccount(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -110,7 +110,7 @@ it('"payment" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processPayment(accountId, rawCreateAccount)
+  OperationService.parsePayment(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -186,7 +186,7 @@ it('"path_payment" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processPathPayment(accountId, rawCreateAccount)
+  OperationService.parsePathPayment(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -241,7 +241,7 @@ it('"manage_offer" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processManageOffer(accountId, rawCreateAccount)
+  OperationService.parseManageOffer(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -292,7 +292,7 @@ it('"create_passive_offer" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processCreatePassiveOffer(accountId, rawCreateAccount)
+  OperationService.parseCreatePassiveOffer(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -338,7 +338,7 @@ it('"set_options" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processSetOptions(accountId, rawCreateAccount)
+  OperationService.parseSetOptions(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -385,7 +385,7 @@ it('"change_trust" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processChangeTrust(accountId, rawCreateAccount)
+  OperationService.parseChangeTrust(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -432,7 +432,7 @@ it('"allow_trust" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processAllowTrust(accountId, rawCreateAccount)
+  OperationService.parseAllowTrust(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -471,7 +471,7 @@ it('"account_merge" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processAccountMerge(accountId, rawCreateAccount)
+  OperationService.parseAccountMerge(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -506,7 +506,7 @@ it('"inflation" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processInflation(accountId, rawCreateAccount)
+  OperationService.parseInflation(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
@@ -545,7 +545,7 @@ it('"manage_data" is parsed correctly', () => {
   const mockDispatch = jest.fn()
   OperationService.dispatch = mockDispatch
 
-  OperationService.processManageData(accountId, rawCreateAccount)
+  OperationService.parseManageData(accountId, rawCreateAccount)
 
   expect(mockDispatch.mock.calls.length).toBe(1)
   expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)

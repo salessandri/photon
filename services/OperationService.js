@@ -15,52 +15,52 @@ import {
 class OperationService {
 
   constructor() {
-    this._processors = {
+    this._parsers = {
       create_account: (accountId, rawOperation) => {
-        this.processCreateAccount(accountId, rawOperation)
+        this.parseCreateAccount(accountId, rawOperation)
       },
       payment: (accountId, rawOperation) => {
-        this.processPayment(accountId, rawOperation)
+        this.parsePayment(accountId, rawOperation)
       },
       path_payment: (accountId, rawOperation) => {
-        this.processPathPayment(accountId, rawOperation)
+        this.parsePathPayment(accountId, rawOperation)
       },
       manage_offer: (accountId, rawOperation) => {
-        this.processManageOffer(accountId, rawOperation)
+        this.parseManageOffer(accountId, rawOperation)
       },
       create_passive_offer: (accountId, rawOperation) => {
-        this.processCreatePassiveOffer(accountId, rawOperation)
+        this.parseCreatePassiveOffer(accountId, rawOperation)
       },
       set_options: (accountId, rawOperation) => {
-        this.processSetOptions(accountId, rawOperation)
+        this.parseSetOptions(accountId, rawOperation)
       },
       change_trust: (accountId, rawOperation) => {
-        this.processChangeTrust(accountId, rawOperation)
+        this.parseChangeTrust(accountId, rawOperation)
       },
       allow_trust: (accountId, rawOperation) => {
-        this.processAllowTrust(accountId, rawOperation)
+        this.parseAllowTrust(accountId, rawOperation)
       },
       account_merge: (accountId, rawOperation) => {
-        this.processAccountMerge(accountId, rawOperation)
+        this.parseAccountMerge(accountId, rawOperation)
       },
       inflation: (accountId, rawOperation) => {
-        this.processInflation(accountId, rawOperation)
+        this.parseInflation(accountId, rawOperation)
       },
       manage_data: (accountId, rawOperation) => {
-        this.processManageData(accountId, rawOperation)
+        this.parseManageData(accountId, rawOperation)
       }
     }
   }
 
-  processOperation(accountId, rawOperation) {
-    if (!(rawOperation.type in this._processors)) {
+  parseOperation(accountId, rawOperation) {
+    if (!(rawOperation.type in this._parsers)) {
       log.error('Found an unknown operation type: ' + rawOperation.type)
       return
     }
-    this._processors[rawOperation.type](accountId, rawOperation)
+    this._parsers[rawOperation.type](accountId, rawOperation)
   }
 
-  processCreateAccount(accountId, operation) {
+  parseCreateAccount(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -72,7 +72,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  processPayment(accountId, operation) {
+  parsePayment(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -87,7 +87,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  processPathPayment(accountId, operation) {
+  parsePathPayment(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let path = operation.path.map(p => {
       return {
@@ -114,7 +114,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  processManageOffer(accountId, operation) {
+  parseManageOffer(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -133,7 +133,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  processCreatePassiveOffer(accountId, operation) {
+  parseCreatePassiveOffer(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -152,7 +152,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  processSetOptions(accountId, operation) {
+  parseSetOptions(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -170,7 +170,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  processChangeTrust(accountId, operation) {
+  parseChangeTrust(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -185,7 +185,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  processAllowTrust(accountId, operation) {
+  parseAllowTrust(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -200,7 +200,7 @@ class OperationService {
     this.dispatch(action)
   }
 
-  processAccountMerge(accountId, operation) {
+  parseAccountMerge(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
@@ -211,13 +211,13 @@ class OperationService {
     this.dispatch(action)
   }
 
-  processInflation(accountId, operation) {
+  parseInflation(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let action = addInflationOperation(accountId, basicOp)
     this.dispatch(action)
   }
 
-  processManageData(accountId, operation) {
+  parseManageData(accountId, operation) {
     let basicOp = this._buildBasicOperation(operation)
     let modelOp = {
       ...basicOp,
