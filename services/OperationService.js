@@ -1,5 +1,3 @@
-import { Connect } from 'redux-ddd';
-
 import {
   addCreateAccountOperation,
   addAccountMergeOperation,
@@ -14,7 +12,6 @@ import {
   addInflationOperation
 } from '../actions'
 
-@Connect()
 class OperationService {
 
   constructor() {
