@@ -7,10 +7,22 @@ class StellarNetworkService {
   }
 
   getServer() {
-    return this._server;
+    return this._server
+  }
+
+  async getEffectsForOperation(operationId) {
+    let effectsPage = await this._server.effects().forOperation(operationId).call()
+    return effectsPage.records
+  }
+
+  startOperationStreamForAccount(accountId, cursor, onOperation, onError) {
+    return this._server.operations().forAccount(accountId).cursor(cursor).stream({
+      onmessage: onOperation,
+      onerror: onError
+    })
   }
 
 }
 
 // The service is a singleton
-export default new StellarNetworkService();
+export default new StellarNetworkService()
