@@ -1,6 +1,8 @@
+import StellarNetworkService from "./StellarNetworkService"
 
 class OperationService {
   constructor() {
+    this._stellarNetworkService = StellarNetworkService
     this._parsers = {
       create_account: rawOperation => {
         return this.parseCreateAccount(rawOperation)
@@ -38,10 +40,27 @@ class OperationService {
     }
   }
 
+  startOperationStreamForAccount(accountId, cursor, onOperation, onError) {
+    return this._stellarNetworkService.startOperationStreamForAccount(
+      accountId,
+      cursor,
+      (op) => {
+        try {
+          let parsedOp = this.parseOperation(op)
+          onOperation(parsedOp)
+        }
+        catch (err) {
+          onError(err)
+        }
+      },
+      onError
+    )
+  }
+
   parseOperation(rawOperation) {
     if (!(rawOperation.type in this._parsers)) {
       console.log.error("Found an unknown operation type: " + rawOperation.type)
-      return
+      throw 'Unknown operation type'
     }
     return this._parsers[rawOperation.type](rawOperation)
   }
