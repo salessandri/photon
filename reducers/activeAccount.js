@@ -4,13 +4,13 @@ let defaultState = {
 }
 const activeAccount = (state = defaultState, action) => {
   switch (action.type) {
-    case 'SELECT_ACCOUNT':
-      return {
-        ...state,
-        accountId: action.id
-      }
-    default:
-      return state
+  case 'SELECT_ACCOUNT':
+    return {
+      ...state,
+      accountId: action.id
+    }
+  default:
+    return state
   }
 }
 
