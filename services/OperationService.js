@@ -1,39 +1,38 @@
 
 class OperationService {
-
   constructor() {
     this._parsers = {
-      create_account: (rawOperation) => {
+      create_account: rawOperation => {
         return this.parseCreateAccount(rawOperation)
       },
-      payment: (rawOperation) => {
+      payment: rawOperation => {
         return this.parsePayment(rawOperation)
       },
-      path_payment: (rawOperation) => {
+      path_payment: rawOperation => {
         return this.parsePathPayment(rawOperation)
       },
-      manage_offer: (rawOperation) => {
+      manage_offer: rawOperation => {
         return this.parseManageOffer(rawOperation)
       },
-      create_passive_offer: (rawOperation) => {
+      create_passive_offer: rawOperation => {
         return this.parseCreatePassiveOffer(rawOperation)
       },
-      set_options: (rawOperation) => {
+      set_options: rawOperation => {
         return this.parseSetOptions(rawOperation)
       },
-      change_trust: (rawOperation) => {
+      change_trust: rawOperation => {
         return this.parseChangeTrust(rawOperation)
       },
-      allow_trust: (rawOperation) => {
+      allow_trust: rawOperation => {
         return this.parseAllowTrust(rawOperation)
       },
-      account_merge: (rawOperation) => {
+      account_merge: rawOperation => {
         return this.parseAccountMerge(rawOperation)
       },
-      inflation: (rawOperation) => {
+      inflation: rawOperation => {
         return this.parseInflation(rawOperation)
       },
-      manage_data: (rawOperation) => {
+      manage_data: rawOperation => {
         return this.parseManageData(rawOperation)
       }
     }
@@ -41,7 +40,7 @@ class OperationService {
 
   parseOperation(rawOperation) {
     if (!(rawOperation.type in this._parsers)) {
-      log.error('Found an unknown operation type: ' + rawOperation.type)
+      console.log.error("Found an unknown operation type: " + rawOperation.type)
       return
     }
     return this._parsers[rawOperation.type](rawOperation)
@@ -204,4 +203,4 @@ class OperationService {
   }
 }
 
-export default new OperationService();
+export default new OperationService()
