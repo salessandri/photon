@@ -1,25 +1,14 @@
-import { Connect } from 'redux-ddd';
+import { Connect } from 'redux-ddd'
 
 import {
   addTransaction,
-  addCreateAccountOperation,
-  addAccountMergeOperation,
-  addPaymentOperation,
-  addPathPaymentOperation,
-  addManageOfferOperation,
-  addCreatePassiveOfferOperation,
-  addSetOptionsOperation,
-  addChangeTrustOperation,
-  addAllowTrustOperation,
-  addManageDataOperation
+  addOperation
 } from '../actions'
 
+import OperationService from './OperationService'
 import StellarNetworkService from './StellarNetworkService'
-import OperationService from './OperationService';
 
-@Connect(state => ({
-  accounts: state.accounts,
-}))
+@Connect()
 class AccountService {
 
   constructor() {
@@ -32,27 +21,29 @@ class AccountService {
   // have logic with side-effects.
   onAction(action) {
     switch (action.type) {
-      case 'ADD_ACCOUNT':
-        this._startUpdateStream(action.id, undefined, undefined)
-        return
-      case 'DELETE_ACCOUNT':
-        this._stopUpdateStream(action.id)
-        return
+    case 'ADD_ACCOUNT':
+      this._startUpdateStream(action.id, undefined, undefined)
+      return
+    case 'DELETE_ACCOUNT':
+      this._stopUpdateStream(action.id)
+      return
     }
   }
 
   _stopUpdateStream(accountId) {
-
+    let {operationStream, transactionsStream} = this._updateStreams[accountId]
+    operationStream()
+    transactionsStream()
+    delete this._updateStreams[accountId]
   }
 
   _startUpdateStream(accountId, operationsCursor, txCursor) {
-    let operationsStream = this._stellarNetworkService.getServer()
-      .operations()
-      .forAccount(accountId)
-      .cursor(operationsCursor)
-      .stream({
-        onmessage: op => { this._operationService.processOperation(accountId, op) }
-      })
+    let operationsStream = this._operationService.startOperationStreamForAccount(
+      accountId,
+      operationsCursor,
+      op => { this._processOperation(accountId, op) },
+      () => {}
+    )
     let transactionsStream = this._stellarNetworkService.getServer()
       .transactions()
       .forAccount(accountId)
@@ -83,8 +74,13 @@ class AccountService {
     this.dispatch(addTxAction)
   }
 
+  _processOperation(accountId, operation) {
+    let addOperationAction = addOperation(accountId, operation)
+    this.dispatch(addOperationAction)
+  }
+
   _updateStreams = {}
 
 }
 
-export default new AccountService();
+export default new AccountService()
