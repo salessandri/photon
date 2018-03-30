@@ -116,15 +116,6 @@ const addTransactionReducer = (state, accountId, tx) => {
 
 const balanceReducer = (state = initialState, action) => {
   switch (action.type) {
-    // Transaction side effects on the balance
-    case 'ADD_TRANSACTION':
-      return addTransactionReducer(state, action.accountId, action.transaction)
-    case 'ADD_CREATE_ACCOUNT_OPERATION':
-      return createAccountReducer(state, action.accountId, action.operation)
-    case 'ADD_PAYMENT_OPERATION':
-      return paymentReducer(state, action.accountId, action.operation)
-    case 'ADD_ACCOUNT_MERGE_OPERATION':
-      return state
     default:
       return state
   }

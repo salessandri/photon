@@ -16,6 +16,7 @@ module.exports = {
   },
   "rules": {
     "semi": [2, "never"],
-    "no-console": 0
+    "no-console": 0,
+    "no-unused-vars": [2, { "varsIgnorePattern": "^_$" }]
   },
 }
