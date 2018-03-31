@@ -46,6 +46,7 @@ it('Operation received is properly dispatched after getting its effects', done =
 
   AccountService.dispatch = dispatchCallback
   AccountService._effectService = effectServiceMock
+  AccountService._operationsQueueByAccount[accountId] = []
 
   AccountService._processOperation(accountId, operationReceived)
 })
@@ -96,6 +97,7 @@ it('Keep retrying to get the effects prior dispatching an operation', done => {
 
   AccountService.dispatch = dispatchCallback
   AccountService._effectService = effectServiceMock
+  AccountService._operationsQueueByAccount[accountId] = []
 
   AccountService._processOperation(accountId, operationReceived)
 })
