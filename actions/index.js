@@ -38,10 +38,11 @@ export const addTransaction = (accountId, tx) => {
   }
 }
 
-export const addOperation = (accountId, op) => {
+export const addOperation = (accountId, operation, effects) => {
   return {
     type: 'ADD_OPERATION',
     accountId: accountId,
-    operation: op
+    operation: operation,
+    effects: effects
   }
 }

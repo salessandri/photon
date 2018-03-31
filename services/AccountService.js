@@ -5,6 +5,7 @@ import {
   addOperation
 } from '../actions'
 
+import EffectService from './EffectService'
 import OperationService from './OperationService'
 import StellarNetworkService from './StellarNetworkService'
 
@@ -14,6 +15,7 @@ class AccountService {
   constructor() {
     this._stellarNetworkService = StellarNetworkService
     this._operationService = OperationService
+    this._effectService = EffectService
   }
 
   // The onAction listener is called every time an action is
@@ -75,8 +77,15 @@ class AccountService {
   }
 
   _processOperation(accountId, operation) {
-    let addOperationAction = addOperation(accountId, operation)
-    this.dispatch(addOperationAction)
+    this._effectService.getEffectsForOperation(operation.id)
+      .then(effects => {
+        let addOperationAction = addOperation(accountId, operation, effects)
+        this.dispatch(addOperationAction)
+      })
+      .catch(err => {
+        console.debug('Error trying to get the effects for operation: ' + err)
+        this._processOperation(accountId, operation)
+      })
   }
 
   _updateStreams = {}
