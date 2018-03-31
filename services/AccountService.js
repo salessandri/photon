@@ -37,9 +37,11 @@ class AccountService {
     operationStream()
     transactionsStream()
     delete this._updateStreams[accountId]
+    delete this._operationsQueueByAccount[accountId]
   }
 
   _startUpdateStream(accountId, operationsCursor, txCursor) {
+    this._operationsQueueByAccount[accountId] = []
     let operationsStream = this._operationService.startOperationStreamForAccount(
       accountId,
       operationsCursor,
@@ -77,19 +79,32 @@ class AccountService {
   }
 
   _processOperation(accountId, operation) {
+    this._operationsQueueByAccount[accountId].push(operation)
+    if (this._operationsQueueByAccount[accountId].length > 1) {
+      return
+    }
+    this._processAccountOperationQueueHead(accountId)
+  }
+
+  _processAccountOperationQueueHead(accountId) {
+    let operation = this._operationsQueueByAccount[accountId][0]
     this._effectService.getEffectsForOperation(operation.id)
       .then(effects => {
         let addOperationAction = addOperation(accountId, operation, effects)
         this.dispatch(addOperationAction)
+        this._operationsQueueByAccount[accountId].shift()
+        if (this._operationsQueueByAccount[accountId].length > 0) {
+          this._processAccountOperationQueueHead(accountId)
+        }
       })
       .catch(err => {
         console.debug('Error trying to get the effects for operation: ' + err)
-        this._processOperation(accountId, operation)
+        this._processAccountOperationQueueHead(accountId)
       })
   }
 
   _updateStreams = {}
-
+  _operationsQueueByAccount = {}
 }
 
 export default new AccountService()
