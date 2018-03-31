@@ -9,7 +9,9 @@ import EffectService from './EffectService'
 import OperationService from './OperationService'
 import StellarNetworkService from './StellarNetworkService'
 
-@Connect()
+@Connect(state => ({
+  accounts: state.accounts,
+}))
 class AccountService {
 
   constructor() {
@@ -30,6 +32,28 @@ class AccountService {
       this._stopUpdateStream(action.id)
       return
     }
+  }
+
+  onStateUpdate(prev) {
+    Object.keys(this.accounts).forEach(accountId => {
+      if (!(accountId in prev.accounts)) {
+        return
+      }
+      if (this._operationsQueueByAccount[accountId].length === 0) {
+        return
+      }
+      let headOperation = this._operationsQueueByAccount[accountId][0]
+      let txInPrev =
+        (headOperation.transactionId in prev.accounts[accountId].transactions.transactionsById)
+      if (txInPrev) {
+        return
+      }
+      let txInCurrent =
+        (headOperation.transactionId in this.accounts[accountId].transactions.transactionsById)
+      if (txInCurrent) {
+        this._processAccountOperationQueueHead(accountId)
+      }
+    })
   }
 
   _stopUpdateStream(accountId) {
@@ -88,6 +112,9 @@ class AccountService {
 
   _processAccountOperationQueueHead(accountId) {
     let operation = this._operationsQueueByAccount[accountId][0]
+    if (!(operation.transactionId in this.accounts[accountId].transactions.transactionsById)) {
+      return
+    }
     this._effectService.getEffectsForOperation(operation.id)
       .then(effects => {
         let addOperationAction = addOperation(accountId, operation, effects)
