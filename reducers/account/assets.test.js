@@ -224,3 +224,177 @@ it("Create account from account decreases the native asset balance", () => {
 
   expect(assetsReducer(currentState, dispatchedAction)).toEqual(expectedState)
 })
+
+it("Payment operation increases the asset balance on the receiver side", () => {
+  let accountId = 'GAAJKG3WQKHWZJ5RGVVZMVV6X3XYU7QUH2YVATQ2KBVR2ZJYLG35Z65A'
+
+  let currentState = {
+    assetsBalanceById: {
+      'native:undefined:undefined': {
+        balance: '12345.7890123',
+        movements: []
+      },
+      'credit_alphanum4:GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB:TEST': {
+        balance: '1.0000002',
+        movements: [
+          {
+            operationId: '1',
+            date: '2017-02-20T19:50:52Z',
+            amount: '1.0000002'
+          }
+        ]
+      },
+    }
+  }
+
+  let dispatchedAction = {
+    type: 'ADD_OPERATION',
+    accountId: accountId,
+    operation: {
+      id: '10157597659144',
+      sourceAccount: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+      type: 'payment',
+      createdAt: '2017-03-20T19:50:52Z',
+      transactionId: '17a670bc424ff5ce3b386dbfaae9990b66a2a37b4fbe51547e8794962a3f9e6a',
+      assetType: 'credit_alphanum4',
+      assetIssuer: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+      assetCode: 'TEST',
+      from: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+      to: 'GAAJKG3WQKHWZJ5RGVVZMVV6X3XYU7QUH2YVATQ2KBVR2ZJYLG35Z65A',
+      amount: '1234567.1234567'
+    },
+    effects: [
+      {
+        id: '0000010157597659144-0000000001',
+        account: 'GAAJKG3WQKHWZJ5RGVVZMVV6X3XYU7QUH2YVATQ2KBVR2ZJYLG35Z65A',
+        type: 'account_credited',
+        assetType: 'credit_alphanum4',
+        assetCode: 'TEST',
+        assetIssuer: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+        amount: '1234567.1234567',
+      },
+      {
+        id: '0000010157597659144-0000000002',
+        account: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+        type: 'account_debited',
+        assetType: 'credit_alphanum4',
+        assetCode: 'TEST',
+        assetIssuer: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+        amount: '1234567.1234567',
+      }
+    ]
+  }
+
+  let expectedState = {
+    assetsBalanceById: {
+      'native:undefined:undefined': {
+        balance: '12345.7890123',
+        movements: []
+      },
+      'credit_alphanum4:GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB:TEST': {
+        balance: '1234568.1234569',
+        movements: [
+          {
+            operationId: '1',
+            date: '2017-02-20T19:50:52Z',
+            amount: '1.0000002'
+          },
+          {
+            operationId: dispatchedAction.operation.id,
+            date: dispatchedAction.operation.createdAt,
+            amount: '1234567.1234567'
+          }
+        ]
+      }
+    }
+  }
+
+  expect(assetsReducer(currentState, dispatchedAction)).toEqual(expectedState)
+})
+
+it("Payment operation reduces the asset balance on the sender side", () => {
+  let accountId = 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB'
+
+  let currentState = {
+    assetsBalanceById: {
+      'native:undefined:undefined': {
+        balance: '12345.7890123',
+        movements: []
+      },
+      'credit_alphanum4:GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB:TEST': {
+        balance: '1234567.1234568',
+        movements: [
+          {
+            operationId: '1',
+            date: '2017-02-20T19:50:52Z',
+            amount: '1234567.1234568'
+          }
+        ]
+      },
+    }
+  }
+
+  let dispatchedAction = {
+    type: 'ADD_OPERATION',
+    accountId: accountId,
+    operation: {
+      id: '10157597659144',
+      sourceAccount: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+      type: 'payment',
+      createdAt: '2017-03-20T19:50:52Z',
+      transactionId: '17a670bc424ff5ce3b386dbfaae9990b66a2a37b4fbe51547e8794962a3f9e6a',
+      assetType: 'credit_alphanum4',
+      assetIssuer: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+      assetCode: 'TEST',
+      from: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+      to: 'GAAJKG3WQKHWZJ5RGVVZMVV6X3XYU7QUH2YVATQ2KBVR2ZJYLG35Z65A',
+      amount: '1234567.1234567'
+    },
+    effects: [
+      {
+        id: '0000010157597659144-0000000001',
+        account: 'GAAJKG3WQKHWZJ5RGVVZMVV6X3XYU7QUH2YVATQ2KBVR2ZJYLG35Z65A',
+        type: 'account_credited',
+        assetType: 'credit_alphanum4',
+        assetCode: 'TEST',
+        assetIssuer: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+        amount: '1234567.1234567',
+      },
+      {
+        id: '0000010157597659144-0000000002',
+        account: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+        type: 'account_debited',
+        assetType: 'credit_alphanum4',
+        assetCode: 'TEST',
+        assetIssuer: 'GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB',
+        amount: '1234567.1234567',
+      }
+    ]
+  }
+
+  let expectedState = {
+    assetsBalanceById: {
+      'native:undefined:undefined': {
+        balance: '12345.7890123',
+        movements: []
+      },
+      'credit_alphanum4:GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB:TEST': {
+        balance: '0.0000001',
+        movements: [
+          {
+            operationId: '1',
+            date: '2017-02-20T19:50:52Z',
+            amount: '1234567.1234568'
+          },
+          {
+            operationId: dispatchedAction.operation.id,
+            date: dispatchedAction.operation.createdAt,
+            amount: '-1234567.1234567'
+          }
+        ]
+      }
+    }
+  }
+
+  expect(assetsReducer(currentState, dispatchedAction)).toEqual(expectedState)
+})

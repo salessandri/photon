@@ -78,6 +78,26 @@ const processEffect = (state, action, effect) => {
       }
     }
   }
+  case 'account_credited':
+  {
+    let assetId = generateBalanceId(effect.assetType, effect.assetIssuer, effect.assetCode)
+    let balanceMovement = {
+      operationId: action.operation.id,
+      date: action.operation.createdAt,
+      amount: new BigDecimal(effect.amount).toPlainString()
+    }
+    let newAssetBalanceState = processBalanceMovement(
+      state.assetsBalanceById[assetId],
+      balanceMovement
+    )
+    return {
+      ...state,
+      assetsBalanceById: {
+        ...state.assetsBalanceById,
+        [assetId]: newAssetBalanceState
+      }
+    }
+  }
   case 'account_debited':
   {
     let assetId = generateBalanceId(effect.assetType, effect.assetIssuer, effect.assetCode)
