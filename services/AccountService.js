@@ -78,7 +78,7 @@ class AccountService {
       .cursor(txCursor)
       .stream({
         onmessage: tx => { this._processTransaction(accountId, tx) },
-        onerror: err => { this._processTransactionError(accountId, err) }
+        onerror: _ => { /* Ignore errors for now */ }
       })
     this._updateStreams[accountId] = {
       operationsStream,

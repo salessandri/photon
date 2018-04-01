@@ -1,4 +1,4 @@
-import StellarNetworkService from './StellarNetworkService';
+import StellarNetworkService from './StellarNetworkService'
 
 class EffectService {
 
@@ -77,7 +77,7 @@ class EffectService {
 
   parseEffect(rawEffect) {
     if (!(rawEffect.type in this._parserByType)) {
-      log.error('Found an unknown effect type: ' + rawEffect.type)
+      console.log.error('Found an unknown effect type: ' + rawEffect.type)
       return
     }
     return this._parserByType[rawEffect.type](rawEffect)
