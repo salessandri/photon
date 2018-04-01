@@ -54,13 +54,59 @@ const processAddTransaction = (state, action) => {
 }
 
 const processEffect = (state, action, effect) => {
-  return state
+  if (effect.account !== action.accountId) {
+    return state
+  }
+  switch (effect.type) {
+  case 'account_created':
+  {
+    let assetId = generateBalanceId('native', undefined, undefined)
+    let balanceMovement = {
+      operationId: action.operation.id,
+      date: action.operation.createdAt,
+      amount: effect.startingBalance
+    }
+    let newAssetBalanceState = processBalanceMovement(
+      state.assetsBalanceById[assetId],
+      balanceMovement
+    )
+    return {
+      ...state,
+      assetsBalanceById: {
+        ...state.assetsBalanceById,
+        [assetId]: newAssetBalanceState
+      }
+    }
+  }
+  case 'account_debited':
+  {
+    let assetId = generateBalanceId(effect.assetType, effect.assetIssuer, effect.assetCode)
+    let balanceMovement = {
+      operationId: action.operation.id,
+      date: action.operation.createdAt,
+      amount: new BigDecimal(effect.amount).negate().toPlainString()
+    }
+    let newAssetBalanceState = processBalanceMovement(
+      state.assetsBalanceById[assetId],
+      balanceMovement
+    )
+    return {
+      ...state,
+      assetsBalanceById: {
+        ...state.assetsBalanceById,
+        [assetId]: newAssetBalanceState
+      }
+    }
+  }
+  default:
+    return state
+  }
 }
 
-const processOperation = (state = initialBalanceState, action) => {
-  return action.effects.reduce((effect, currentState) => {
+const processOperation = (state, action) => {
+  return action.effects.reduce((currentState, effect) => {
     return processEffect(currentState, action, effect)
-  })
+  }, state)
 }
 
 const assetsReducer = (state = initialAssetsState, action) => {

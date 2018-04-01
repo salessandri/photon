@@ -93,9 +93,7 @@ it("Native asset's state is untouched from a transaction of other account", () =
 it("Create account targeting account increases the native asset balance", () => {
   let accountId = 'GCQILV76QLVPFNU3UIW62XEPNAPCSCOM5KVKOUCDQNP7QOFOV4SZ72Q2'
 
-  let currentState = {
-    assetsBalanceById: {}
-  }
+  let currentState = undefined
 
   let dispatchedAction = {
     type: 'ADD_OPERATION',
@@ -144,7 +142,7 @@ it("Create account targeting account increases the native asset balance", () => 
         balance: '10000.0000000',
         movements: [
           {
-            transactionId: '5a54f104b5effc385b4ac575730861ae4eca952dba33bfc4749a520071f2227c',
+            operationId: '31726300645306369',
             amount: '10000.0000000',
             date: '2018-02-16T07:07:14Z'
           }
@@ -215,7 +213,7 @@ it("Create account from account decreases the native asset balance", () => {
         balance: '2345.7890123',
         movements: [
           {
-            transactionId: '5a54f104b5effc385b4ac575730861ae4eca952dba33bfc4749a520071f2227c',
+            operationId: '31726300645306369',
             amount: '-10000.0000000',
             date: '2018-02-16T07:07:14Z'
           }
