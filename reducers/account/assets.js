@@ -51,13 +51,24 @@ const processAddTransaction = (state, action) => {
       [assetId]: newAssetBalanceState
     }
   }
+}
 
+const processEffect = (state, action, effect) => {
+  return state
+}
+
+const processOperation = (state = initialBalanceState, action) => {
+  return action.effects.reduce((effect, currentState) => {
+    return processEffect(currentState, action, effect)
+  })
 }
 
 const assetsReducer = (state = initialAssetsState, action) => {
   switch (action.type) {
   case 'ADD_TRANSACTION':
     return processAddTransaction(state, action)
+  case 'ADD_OPERATION':
+    return processOperation(state, action)
   default:
     return state
   }
