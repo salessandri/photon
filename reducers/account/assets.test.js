@@ -398,3 +398,148 @@ it("Payment operation reduces the asset balance on the sender side", () => {
 
   expect(assetsReducer(currentState, dispatchedAction)).toEqual(expectedState)
 })
+
+it("Path payment operation reduces the asset balance on the sender side", () => {
+  let accountId = 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL'
+
+  let currentState = {
+    assetsBalanceById: {
+      'native:undefined:undefined': {
+        balance: '12345.7890123',
+        movements: []
+      },
+      'credit_alphanum4:GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB:TEST': {
+        balance: '1234567.1234568',
+        movements: [
+          {
+            operationId: '1',
+            date: '2017-02-20T19:50:52Z',
+            amount: '1234567.1234568'
+          }
+        ]
+      },
+    }
+  }
+
+  let dispatchedAction = {
+    type: 'ADD_OPERATION',
+    accountId: accountId,
+    operation: {
+      id: '34806814398746625',
+      sourceAccount: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+      type: 'path_payment',
+      createdAt: '2018-03-26T00:18:52Z',
+      transactionId: '6e538492f66a458a51b93bde82dbdc813effe654bb1b02f59be619ebabf42818',
+      destinationAssetType: 'credit_alphanum4',
+      destinationAssetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP',
+      destinationAssetCode: 'EUR',
+      sourceAssetType: 'native',
+      sourceAssetIssuer: undefined,
+      sourceAssetCode: undefined,
+      from: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+      to: 'GC3SUVTE2ATAZYPMNHRIYZBHROPR62MX2V4AW4ARC2SQB5QMY4YA4KPL',
+      destinationAmount: '3.0000000',
+      sourceMaxAmount: '20.0000000',
+      path: [
+        {
+          assetType: 'credit_alphanum4',
+          assetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZZQCEE5UFP',
+          assetCode: 'USD'
+        },
+        {
+          assetType: 'credit_alphanum4',
+          assetCode: 'EUR',
+          assetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP'
+        }
+      ]
+    },
+    effects: [
+      {
+        id: '0034806814398746625-0000000001',
+        account: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+        type: 'trade',
+        seller: 'GD23QNWY2N6DOO5AGNNNKG46QSOZAFTM4GIAIG7QZJAFSX2EDT7LBKVL',
+        offerId: 161886,
+        soldAmount: '2.0000000',
+        soldAssetType: 'native',
+        soldAssetIssuer: undefined,
+        soldAssetCode: undefined,
+        boughtAmount: '1.0000000',
+        boughtAssetType: 'credit_alphanum4',
+        boughtAssetCode: 'USD',
+        boughtAssetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP',
+      },
+      {
+        id: '0034806814398746625-0000000002',
+        account: 'GD23QNWY2N6DOO5AGNNNKG46QSOZAFTM4GIAIG7QZJAFSX2EDT7LBKVL',
+        type: 'trade',
+        seller: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+        offerId: 161886,
+        soldAmount: '1.0000000',
+        soldAssetType: 'credit_alphanum4',
+        soldAssetCode: 'USD',
+        soldAssetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP',
+        boughtAmount: '2.0000000',
+        boughtAssetType: 'native',
+        boughtAssetIssuer: undefined,
+        boughtAssetCode: undefined
+      },
+      {
+        id: '0034806814398746625-0000000003',
+        account: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+        type: 'trade',
+        seller: 'GCUSS3RPQYSJXXJBH2DZQCMLC2NSHKI5QVXCL34CWLOGNYWHGVUE7XPH',
+        offerId: 161885,
+        soldAmount: '1.0000000',
+        soldAssetYype: 'credit_alphanum4',
+        soldAssetCode: 'USD',
+        soldAssetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP',
+        boughtAmount: '3.0000000',
+        boughtAssetType: 'credit_alphanum4',
+        boughtAssetCode: 'EUR',
+        boughtAssetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP',
+      },
+      {
+        id: '0034806814398746625-0000000004',
+        account: 'GCUSS3RPQYSJXXJBH2DZQCMLC2NSHKI5QVXCL34CWLOGNYWHGVUE7XPH',
+        type: 'trade',
+        seller: 'GC2QUFK2ZSFWJG55WKTD5Z73L66RX2J26ZB54B2OGJPSRKEDTLQ4XKBL',
+        offerId: 161885,
+        soldAmount: '3.0000000',
+        soldAssetType: 'credit_alphanum4',
+        soldAssetCode: 'EUR',
+        soldAssetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP',
+        boughtAmount: '1.0000000',
+        boughtAssetType: 'credit_alphanum4',
+        boughtAssetCode: 'USD',
+        boughtAssetIssuer: 'GC36Q3ZUPX254VPPDWNTJBWLOV3DEZNIIYKVNB3QY4A5WYZYQCEE5UFP',
+      }
+    ]
+  }
+
+  let expectedState = {
+    assetsBalanceById: {
+      'native:undefined:undefined': {
+        balance: '12345.7890123',
+        movements: []
+      },
+      'credit_alphanum4:GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB:TEST': {
+        balance: '0.0000001',
+        movements: [
+          {
+            operationId: '1',
+            date: '2017-02-20T19:50:52Z',
+            amount: '1234567.1234568'
+          },
+          {
+            operationId: dispatchedAction.operation.id,
+            date: dispatchedAction.operation.createdAt,
+            amount: '-1234567.1234567'
+          }
+        ]
+      }
+    }
+  }
+
+  expect(assetsReducer(currentState, dispatchedAction)).toEqual(expectedState)
+})
