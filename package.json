@@ -9,6 +9,7 @@
     "nodeify": "node_modules/.bin/rn-nodeify --hack --install"
   },
   "dependencies": {
+    "@tradle/react-native-http": "^2.0.0",
     "assert": "^1.1.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "bigdecimal": "^0.6.1",
@@ -84,7 +85,7 @@
     "dns": "dns.js",
     "net": "react-native-tcp",
     "domain": "domain-browser",
-    "http": "react-native-http",
+    "http": "@tradle/react-native-http",
     "https": "https-browserify",
     "os": "react-native-os",
     "path": "path-browserify",
@@ -110,7 +111,7 @@
     "dns": "dns.js",
     "net": "react-native-tcp",
     "domain": "domain-browser",
-    "http": "react-native-http",
+    "http": "@tradle/react-native-http",
     "https": "https-browserify",
     "os": "react-native-os",
     "path": "path-browserify",
