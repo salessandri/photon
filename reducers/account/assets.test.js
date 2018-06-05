@@ -520,21 +520,22 @@ it("Path payment operation reduces the asset balance on the sender side", () => 
   let expectedState = {
     assetsBalanceById: {
       'native:undefined:undefined': {
-        balance: '12345.7890123',
-        movements: []
+        balance: '12343.7890123',
+        movements: [
+          {
+            operationId: dispatchedAction.operation.id,
+            date: dispatchedAction.operation.createdAt,
+            amount: '-2.0000000'
+          }
+        ]
       },
       'credit_alphanum4:GDNFUWF2EO4OWXYLI4TDEH4DXUCN6PB24R6XQW4VATORK6WGMHGRXJVB:TEST': {
-        balance: '0.0000001',
+        balance: '1234567.1234568',
         movements: [
           {
             operationId: '1',
             date: '2017-02-20T19:50:52Z',
             amount: '1234567.1234568'
-          },
-          {
-            operationId: dispatchedAction.operation.id,
-            date: dispatchedAction.operation.createdAt,
-            amount: '-1234567.1234567'
           }
         ]
       }

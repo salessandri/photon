@@ -58,13 +58,140 @@ const processEffect = (state, action, effect) => {
     return state
   }
   switch (effect.type) {
-  case 'account_created':
-  {
-    let assetId = generateBalanceId('native', undefined, undefined)
+    case 'account_created':
+    {
+      let assetId = generateBalanceId('native', undefined, undefined)
+      let balanceMovement = {
+        operationId: action.operation.id,
+        date: action.operation.createdAt,
+        amount: effect.startingBalance
+      }
+      let newAssetBalanceState = processBalanceMovement(
+        state.assetsBalanceById[assetId],
+        balanceMovement
+      )
+      return {
+        ...state,
+        assetsBalanceById: {
+          ...state.assetsBalanceById,
+          [assetId]: newAssetBalanceState
+        }
+      }
+    }
+    case 'account_credited':
+    {
+      let assetId = generateBalanceId(effect.assetType, effect.assetIssuer, effect.assetCode)
+      let balanceMovement = {
+        operationId: action.operation.id,
+        date: action.operation.createdAt,
+        amount: new BigDecimal(effect.amount).toPlainString()
+      }
+      let newAssetBalanceState = processBalanceMovement(
+        state.assetsBalanceById[assetId],
+        balanceMovement
+      )
+      return {
+        ...state,
+        assetsBalanceById: {
+          ...state.assetsBalanceById,
+          [assetId]: newAssetBalanceState
+        }
+      }
+    }
+    case 'account_debited':
+    {
+      let assetId = generateBalanceId(effect.assetType, effect.assetIssuer, effect.assetCode)
+      let balanceMovement = {
+        operationId: action.operation.id,
+        date: action.operation.createdAt,
+        amount: new BigDecimal(effect.amount).negate().toPlainString()
+      }
+      let newAssetBalanceState = processBalanceMovement(
+        state.assetsBalanceById[assetId],
+        balanceMovement
+      )
+      return {
+        ...state,
+        assetsBalanceById: {
+          ...state.assetsBalanceById,
+          [assetId]: newAssetBalanceState
+        }
+      }
+    }
+    case 'trade':
+    {
+      let soldAssetId = generateBalanceId(
+        effect.soldAssetType,
+        effect.soldAssetIssuer,
+        effect.soldAssetCode
+      )
+      let soldAmount = effect.soldAmount
+      let boughtAssetId = generateBalanceId(
+        effect.boughtAssetType,
+        effect.boughtAssetIssuer,
+        effect.boughtAssetCode
+      )
+      let boughtAmount = effect.boughtAmount
+
+      if (effect.seller !== effect.account) {
+        soldAssetId = [boughtAssetId, boughtAssetId = soldAssetId][0];
+        soldAmount = [boughtAmount, boughtAmount = soldAmount][0];
+      }
+
+      let sellBalanceMovement = {
+        operationId: action.operation.id,
+        date: action.operation.createdAt,
+        amount: new BigDecimal(soldAmount).negate().toPlainString()
+      }
+      let newSoldAssetBalanceState = processBalanceMovement(
+        state.assetsBalanceById[soldAssetId],
+        sellBalanceMovement
+      )
+      let buyBalanceMovement = {
+        operationId: action.operation.id,
+        date: action.operation.createdAt,
+        amount: new BigDecimal(boughtAmount).toPlainString()
+      }
+      let newBoughtAssetBalanceState = processBalanceMovement(
+        state.assetsBalanceById[boughtAssetId],
+        buyBalanceMovement
+      )
+      return {
+        ...state,
+        assetsBalanceById: {
+          ...state.assetsBalanceById,
+          [soldAssetId]: newSoldAssetBalanceState,
+          [boughtAssetId]: newBoughtAssetBalanceState
+        }
+      }
+    }
+    default:
+      return state
+  }
+}
+
+const processPathPaymentOperation = (state, action) => {
+  let operation = action.operation
+  let accountId = action.accountId
+
+  if (operation.sourceAccount === accountId) {
+    let sourceAssetTrade = action.effects.filter(effect => {
+      return (effect.type === 'trade') &&
+        (operation.sourceAssetType === effect.soldAssetType) &&
+        (operation.sourceAssetIssuer === effect.soldAssetIssuer) &&
+        (operation.sourceAssetCode === effect.soldAssetCode)
+    })[0]
+
+    let assetId = generateBalanceId(
+      operation.sourceAssetType,
+      operation.sourceAssetIssuer,
+      operation.sourceAssetCode
+    )
+
     let balanceMovement = {
-      operationId: action.operation.id,
-      date: action.operation.createdAt,
-      amount: effect.startingBalance
+      operationId: operation.id,
+      date: operation.createdAt,
+      amount: new BigDecimal(sourceAssetTrade.soldAmount).negate().toPlainString()
     }
     let newAssetBalanceState = processBalanceMovement(
       state.assetsBalanceById[assetId],
@@ -78,13 +205,17 @@ const processEffect = (state, action, effect) => {
       }
     }
   }
-  case 'account_credited':
-  {
-    let assetId = generateBalanceId(effect.assetType, effect.assetIssuer, effect.assetCode)
+  else if (operation.to === accountId) {
+    let assetId = generateBalanceId(
+      operation.destinationAssetType,
+      operation.destinationAssetIssuer,
+      operation.destinationAssetCode
+    )
+
     let balanceMovement = {
-      operationId: action.operation.id,
-      date: action.operation.createdAt,
-      amount: new BigDecimal(effect.amount).toPlainString()
+      operationId: operation.id,
+      date: operation.createdAt,
+      amount: new BigDecimal(operation.destinationAmount).toPlainString()
     }
     let newAssetBalanceState = processBalanceMovement(
       state.assetsBalanceById[assetId],
@@ -98,32 +229,18 @@ const processEffect = (state, action, effect) => {
       }
     }
   }
-  case 'account_debited':
-  {
-    let assetId = generateBalanceId(effect.assetType, effect.assetIssuer, effect.assetCode)
-    let balanceMovement = {
-      operationId: action.operation.id,
-      date: action.operation.createdAt,
-      amount: new BigDecimal(effect.amount).negate().toPlainString()
-    }
-    let newAssetBalanceState = processBalanceMovement(
-      state.assetsBalanceById[assetId],
-      balanceMovement
-    )
-    return {
-      ...state,
-      assetsBalanceById: {
-        ...state.assetsBalanceById,
-        [assetId]: newAssetBalanceState
-      }
-    }
-  }
-  default:
-    return state
+  else {
+    console.error("ASDASDASDASD")
+    return action.effects.reduce((currentState, effect) => {
+      return processEffect(currentState, action, effect)
+    }, state)
   }
 }
 
 const processOperation = (state, action) => {
+  if (action.operation.type === 'path_payment') {
+    return processPathPaymentOperation(state, action)
+  }
   return action.effects.reduce((currentState, effect) => {
     return processEffect(currentState, action, effect)
   }, state)
@@ -131,12 +248,12 @@ const processOperation = (state, action) => {
 
 const assetsReducer = (state = initialAssetsState, action) => {
   switch (action.type) {
-  case 'ADD_TRANSACTION':
-    return processAddTransaction(state, action)
-  case 'ADD_OPERATION':
-    return processOperation(state, action)
-  default:
-    return state
+    case 'ADD_TRANSACTION':
+      return processAddTransaction(state, action)
+    case 'ADD_OPERATION':
+      return processOperation(state, action)
+    default:
+      return state
   }
 }
 
